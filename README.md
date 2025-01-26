@@ -22,4 +22,5 @@ Coiffeur :
 ### Maquettes avec Figma
 https://www.figma.com/design/pfgxXrqYAUlA0grtzf6oOq/Untitled?node-id=0-1&m=dev&t=hiGhsBEL2okKY0sN-1
 
-### Choix de l'outil de gestion de projet 
+### Choix de l'outil de gestion de projet
+Trello : https://trello.com/invite/b/679673e0da344137f1ead289/ATTI4f90adfb3a82eb787abb607306fe39bbC7262E66/bookmycut 
