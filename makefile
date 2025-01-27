@@ -56,7 +56,3 @@ migrate:
 # Run PHPUnit tests
 test:
 	docker exec $(DOCKER_PHP_CONTAINER) ./vendor/bin/phpunit
-
-# Fix permissions for cache directory
-fix-cache-permissions:
-    docker exec $(DOCKER_PHP_CONTAINER) chmod -R 775 var/cache
