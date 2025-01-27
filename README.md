@@ -4,10 +4,10 @@
 **BookMyCut** est une application web développée avec Symfony 7 et PHP 8.3, utilisant Docker pour l'environnement de développement. Elle s'adresse aux salons de coiffure désirant gérer leurs rendez-vous et leur stock de produits simplement. 
 
 ### Les fonctionnalités
-Client : 
+- **Client :**
 - Création et authentification à un compte
 - Prise de rendez-vous selon plusieurs critères (CRUD)
-Coiffeur :
+- **Coiffeur :**
 - Création et authentification à un compte administrateur
 - Accès à un agenda avec les rendez-vous (CRUD)
 - Gestion du stock avec génération d'une liste de courses (coupe homme : 1/3 shampoing, coupe femme : 1/2 shampoing)
