@@ -1,0 +1,82 @@
+x-orbstack:
+  project: bookmycut
+
+services:
+  db:
+    image: mysql:8.0
+    platform: linux/arm64
+    container_name: bookmycut_db
+    volumes:
+      - "bookmycut_db_data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: always
+    ports:
+      - "3306:3306"
+    networks:
+      - bookmycut_network
+
+  adminer:
+    image: adminer
+    platform: linux/arm64
+    container_name: bookmycut_adminer
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: mysql
+      ADMINER_DEFAULT_DB_HOST: bookmycut_db
+      ADMINER_DEFAULT_DB_NAME: ${MYSQL_DATABASE}
+      ADMINER_DEFAULT_SERVER: bookmycut_db
+    restart: always
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      - db
+    networks:
+      - bookmycut_network
+
+  php:
+    container_name: bookmycut_php
+    platform: linux/arm64
+    build:
+      context: ./php
+      args:
+        TIMEZONE: ${TIMEZONE}
+    volumes:
+      - ../:/var/www/bookmycut:cached
+    networks:
+      - bookmycut_network
+    ports:
+      - "9003:9003"
+
+  nginx:
+    container_name: bookmycut_nginx
+    platform: linux/arm64
+    build:
+      context: ./nginx
+    volumes:
+      - ../:/var/www/bookmycut:cached
+    ports:
+      - "80:80"
+    networks:
+      - bookmycut_network
+    env_file:
+      - .env.nginx
+    depends_on:
+      - php
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: bookmycut_mailhog
+    ports:
+      - "2525:1025"
+      - "8090:8025"
+    networks:
+      - bookmycut_network
+
+volumes:
+  bookmycut_db_data:
+
+networks:
+  bookmycut_network:
