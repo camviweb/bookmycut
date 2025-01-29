@@ -6,6 +6,10 @@ DOCKER_PHP_CONTAINER=bookmycut_php
 up:
 	docker compose -f $(DOCKER_COMPOSE_FILEPATH) up -d 
 
+# Connect to the PHP container
+start:
+    docker exec -it $(DOCKER_PHP_CONTAINER) /bin/bash
+
 # Stop the containers
 down:
 	docker compose -f $(DOCKER_COMPOSE_FILEPATH) down
