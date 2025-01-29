@@ -4,6 +4,9 @@
 
 {% block stylesheets %}
     <style>
+        .btn {
+            user-select: text;
+        }
         .hero {
             position: relative;
             height: 70vh;
@@ -25,12 +28,7 @@
             background-size: cover;
             background-position: center;
             filter: brightness(50%);
-            z-index: 1;
-        }
-
-        .hero div {
-            position: relative;
-            z-index: 2;
+            z-index: -1;
         }
 
         .hero h1 {
@@ -48,66 +46,75 @@
             transform: translateY(-5px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
+
+        .testimonial-wrapper {
+            display: flex;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-<div class="hero text-center">
-    <div>
-        <h1>Bienvenue chez BookMyCut</h1>
-        <p>Des services de coiffure de qualité pour vous sublimer.</p>
-        {# <a class="btn btn-danger btn-lg" href="/reservations/new">Réservez votre rendez-vous</a> #}
-		<a class="btn btn-danger btn-lg">Réservez votre rendez-vous</a>
-    </div>
-</div>
-
-<div class="container my-5">
-    <h2 class="text-center text-danger mb-4">Nos Services</h2>
-    <div class="row">
-        {% for service in services %}
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <img alt="{{ service.name }}" class="card-img-top" src="{{ service.image }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ service.name }}</h5>
-                    <p class="card-text">{{ service.description }}</p>
-                    {# <a class="btn btn-danger" href="{{ path('service_details', {'slug': service.slug}) }}">Détails</a> #}
-					<a class="btn btn-danger">Détails</a>
-                </div>
-            </div>
+    <div class="hero text-center">
+        <div>
+            <h1>Bienvenue chez BookMyCut</h1>
+            <p>Des services de coiffure de qualité pour vous sublimer.</p>
+            {# <a class="btn btn-danger btn-lg" href="/reservations/new">Réservez votre rendez-vous</a> #}
+            <a class="btn btn-danger btn-lg">Réservez votre rendez-vous</a>
         </div>
-        {% endfor %}
     </div>
-</div>
 
-<div id="testimonialCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
-    <div class="carousel-inner">
-        {% for testimonial in testimonials %}
-        <div class="carousel-item {% if loop.first %}active{% endif %}">
-            <div class="testimonial-item mx-3">
-                <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
-                        <img alt="{{ testimonial.name }}" class="rounded-circle mb-3" src="{{ testimonial.profile_image }}" style="width: 80px; height: 80px;">
-                        <h5 class="card-title">{{ testimonial.name }}</h5>
-                        <p class="card-text">{{ testimonial.feedback }}</p>
-                        <div class="d-flex justify-content-center">
-                            <span class="badge badge-warning mr-2">{{ testimonial.rating }} étoiles</span>
-                            <span class="text-muted">- {{ testimonial.date }}</span>
+    <div class="container my-5">
+        <h2 class="text-center text-danger mb-4">Nos Services</h2>
+        <div class="row">
+            {% for service in services %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img alt="{{ service.name }}" class="card-img-top" src="{{ service.image }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <p class="card-text">{{ service.description }}</p>
+                            {# <a class="btn btn-danger" href="{{ path('service_details', {'slug': service.slug}) }}">Détails</a> #}
+                            <a class="btn btn-danger">Détails</a>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 
-    <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Précédent</span>
-    </a>
-    <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Suivant</span>
-    </a>
-</div>
+    <div class="container my-5">
+        <h2 class="text-center text-primary mb-4">Avis de nos clients</h2>
+        <div class="row justify-content-center overflow-hidden">
+            <div class="col-12">
+                <div class="testimonial-wrapper d-flex overflow-hidden">
+                    {% for testimonial in testimonials %}
+                        <div class="testimonial-card" style="margin: 0 10px;">
+                            <div class="card shadow-sm">
+                                <div class="card-body text-center" style="height: 150px; width: 300px;">
+                                    <h5>{{ testimonial.name }}</h5>
+                                    <p class="fst-italic">"{{ testimonial.feedback }}"</p>
+                                    <div>
+                                        <span class="badge bg-warning text-dark">{{ testimonial.rating }} ★</span>
+                                        <span class="text-muted ms-2">{{ testimonial.date }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
