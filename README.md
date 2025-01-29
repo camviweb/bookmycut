@@ -14,6 +14,7 @@
 - Accès à une estimation du chiffre d'affaires mensuel
 
 ### Schéma de la base de données
+![Schéma](schema_bdd.png)
 - 1 table utilisateur (client et coiffeur)
 - 1 table rendez-vous (date, horaire, prestation)
 - 1 table prestation (nom, produit nécessaire, quantité nécessaire)
