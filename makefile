@@ -4,15 +4,15 @@ DOCKER_PHP_CONTAINER=bookmycut_php
 
 # Start the containers in the background
 up:
-	docker compose -f $(DOCKER_COMPOSE_FILEPATH) up -d 
-
-# Connect to the PHP container
-start:
-    docker exec -it $(DOCKER_PHP_CONTAINER) /bin/bash
+	docker compose -f $(DOCKER_COMPOSE_FILEPATH) up -d
 
 # Stop the containers
 down:
 	docker compose -f $(DOCKER_COMPOSE_FILEPATH) down
+
+# Connect to the PHP container
+start:
+	docker exec -it $(DOCKER_PHP_CONTAINER) /bin/bash
 
 # Recreate the containers (useful after modifying the Dockerfile)
 build:
