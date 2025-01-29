@@ -45,15 +45,18 @@
 .testimonial-wrapper {
     display: flex;
     width: max-content;
-    animation: scroll 30s linear infinite;
+    animation: scroll 50s linear infinite;
 }
 
 @keyframes scroll {
     0% {
         transform: translateX(0);
     }
-    100% {
+    50% {
         transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
     }
 }
 

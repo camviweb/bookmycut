@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
-		<meta charset="UTF-8">
-		<meta content="width=device-width, initial-scale=1.0" name="viewport">
-		<title>BookMyCut - Salon de Coiffure</title>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>BookMyCut - Salon de Coiffure</title>
 
-		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-		{% block stylesheets %}
-		{% endblock %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    {% block stylesheets %}
+    {% endblock %}
 
-		<style>
-			.fond-site {
-				background-image: url('img/background.png');
-				background-repeat: repeat;
-				background-size: 150px 150px;
-				position: fixed;
-				width: 100%;
-				height: 100%;
-				opacity: 0.1;
-				z-index: -1;
-			}
-		</style>
-	</head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            padding-top: 56px;
+        }
 
-	<header>
-		{% include '/fragments/header.html.twig' %}
-	</header>
+        .fond-site {
+            background-image: url('img/background.png');
+            background-repeat: repeat;
+            background-size: 150px 150px;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
 
-	<body>
-	<div class="fond-site"></div>
-		{% block body %}
-        {% endblock %}
-	</body>
+{% include '/fragments/header.html.twig' %}
 
-	<footer>
-		{% include '/fragments/footer.html.twig' %}
-	</footer>
+<body>
+    <div class="fond-site"></div>
+    {% block body %}
+    {% endblock %}
+</body>
 
-	{% block javascripts %}
-	{% endblock %}
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% include '/fragments/footer.html.twig' %}
+
+{% block javascripts %}
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </html>
