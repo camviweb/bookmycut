@@ -1,30 +1,96 @@
 <style>
-	.navbar {
-		background-color: #fff;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	}
+    .navbar {
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-nav .nav-link {
+        position: relative;
+        color: #333;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+        color: #f55f44;
+        transform: scale(1.1);
+    }
+
+    .navbar-nav .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #f55f44;
+        transition: width 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover::after, .navbar-nav .nav-link.active::after {
+        width: 100%;
+    }
+
+    /* Eviter l'effet de scale sur les petits écrans */
+    @media (max-width: 991px) {
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            transform: none;
+        }
+
+        .navbar-nav .nav-link {
+            padding: 8px 15px;
+        }
+    }
 </style>
 
 <header>
-	<nav class="navbar navbar-expand-lg navbar-light fixed-top">
-		<a class="navbar-brand" href="#">
-			<img alt="Logo BookMyCut" height="40" src="/img/logo_bookMyCut.png">
-		</a>
-		<button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarNav" data-toggle="collapse" type="button">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item">
-					<a class="nav-link text-primary" href="/services">Services</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-primary" href="/reservations">Réservations</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-primary" href="/login">Connexion</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand p-0" href="/">
+            <img alt="Logo BookMyCut" height="50" src="/img/logo_bookMyCut.png">
+        </a>
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarNav" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/reservations">Réservations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/login">Connexion</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </header>
+
+<script>
+    // Ajouter la classe active au lien de la page actuelle
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+
+    // Empêcher la redirection si l'URL du lien est la même que celle de la page actuelle
+    document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        navLinks.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                const currentPage = window.location.pathname;
+                const linkHref = link.getAttribute('href');
+
+                if (currentPage === linkHref) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+</script>

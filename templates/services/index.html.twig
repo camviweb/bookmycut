@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Services - Coupes Femme{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .card-img-top {
+            height: 100px;
+            object-fit: contain;
+            margin: 13px 0;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 320px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h2 class="text-center text-danger mb-4">Coupes Femme</h2>
+
+        <div class="row justify-content-center">
+            {% for coupe in coupes %}
+                <div class="col-lg-4 col-md-6 col-12 mb-4">
+                    <img src="{{ asset('img/' ~ coupe.image) }}" class="card-img-top" alt="Coupe {{ coupe.nom }}">
+                    <div class="card shadow-sm d-flex flex-column">
+                        <div class="card-body d-flex flex-column text-start text-wrap">
+                            <h5 class="card-title text-center">Coupe Femme - <br> {{ coupe.nom }}</h5>
+                            <p class="card-text">{{ coupe.description }}</p>
+                            <ul class="list-unstyled">
+                                <li><strong>Étapes :</strong></li>
+                                {% for etape in coupe.etapes %}
+                                    <li>{{ etape }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-muted mb-0">
+                                <i class="bi bi-clock"></i> {{ coupe.duree }}
+                            </p>
+                            <p class="fw-bold mb-0">
+                                <i class="bi bi-tag"></i> {{ coupe.prix }}
+                            </p>
+                            <a class="btn btn-danger">Réserver</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

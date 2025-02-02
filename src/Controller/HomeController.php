@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+final class HomeController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'app_home')]
     public function index(): Response
     {
         // Données fictives pour les services
@@ -86,7 +86,7 @@ class HomeController extends AbstractController
             ],
         ];
         
-        return $this->render('home.html.twig', [
+        return $this->render('home/index.html.twig', [
             'services' => $services,
             'testimonials' => $testimonials,
         ]);

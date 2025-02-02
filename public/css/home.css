@@ -42,6 +42,14 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+.card-body {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: space-between;
+    align-items: center;
+}
+
 .testimonial-wrapper {
     display: flex;
     width: max-content;

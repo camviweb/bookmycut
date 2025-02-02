@@ -24,8 +24,10 @@
                     <div class="col-md-4">
                         <div class="card mb-4" style="height: 180px;">
                             <div class="card-body">
-                                <h5 class="card-title">{{ service.name }}</h5>
-                                <p class="card-text">{{ service.description }}</p>
+                                <div>
+                                    <h5 class="card-title">{{ service.name }}</h5>
+                                    <p class="card-text">{{ service.description }}</p>
+                                </div>
                                 {# <a class="btn btn-danger" href="{{ path('service_details', {'slug': service.slug}) }}">Détails</a> #}
                                 <a class="btn btn-danger">Détails</a>
                             </div>
