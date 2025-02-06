@@ -81,26 +81,26 @@ class AdminController extends AbstractController
     {
         // Données fictives
         $revenusParJour = [
-            'Dim' => 2000, 'Lun' => 1000, 'Mar' => 2300, 
-            'Mer' => 1500, 'Jeu' => 800, 'Ven' => 2000, 'Sam' => 2500
+            'Dim' => 2000, 'Lun' => 1000, 'Mar' => 2300,
+            'Mer' => 1500, 'Jeu' => 800, 'Ven' => 2000, 'Sam' => 2500,
         ];
         $revenusMoisPrecedent = [
-            'Dim' => 1800, 'Lun' => 1200, 'Mar' => 2100, 
-            'Mer' => 1700, 'Jeu' => 900, 'Ven' => 1900, 'Sam' => 2300
-        ];    
-    
+            'Dim' => 1800, 'Lun' => 1200, 'Mar' => 2100,
+            'Mer' => 1700, 'Jeu' => 900, 'Ven' => 1900, 'Sam' => 2300,
+        ];
+
         // Chiffres globaux
         $totalRevenu = 166580;
         $totalClients = 25;
-    
+
         // Chiffres du mois précédent (valeurs fictives)
         $revenuMoisPrecedent = 158500;
         $clientsMoisPrecedent = 27;
-    
+
         // Calcul de la variation en pourcentage
         $variationRevenu = (($totalRevenu - $revenuMoisPrecedent) / $revenuMoisPrecedent) * 100;
         $variationClients = (($totalClients - $clientsMoisPrecedent) / $clientsMoisPrecedent) * 100;
-    
+
         return $this->render('admin/chiffres_affaires.html.twig', [
             'totalRevenu' => $totalRevenu,
             'variationRevenu' => round($variationRevenu, 1), // Arrondi à 1 décimale
@@ -114,9 +114,74 @@ class AdminController extends AbstractController
             ],
             'revenusLabels' => array_keys($revenusParJour),
             'revenusValeurs' => array_values($revenusParJour),
-            'revenusMoisPrecedent' => array_values($revenusMoisPrecedent)
+            'revenusMoisPrecedent' => array_values($revenusMoisPrecedent),
         ]);
     }
-    
-    
+
+    #[Route('/admin/reservations', name: 'app_admin_reservations')]
+    public function reservations(): Response
+    {
+        $reservations = [
+            // Coupes Hommes (Bleu)
+            [
+                'title' => 'Coupe homme - Jean Dupont',
+                'start' => '2025-02-06T09:00:00',
+                'end' => '2025-02-06T09:30:00',
+                'color' => '#3498db',
+            ],
+            [
+                'title' => 'Coupe homme - Paul Martin',
+                'start' => '2025-02-07T14:00:00',
+                'end' => '2025-02-07T14:30:00',
+                'color' => '#3498db',
+            ],
+
+            // Coupes Femmes (Violet)
+            [
+                'title' => 'Coupe femme - Sophie Lemoine',
+                'start' => '2025-02-07T10:00:00',
+                'end' => '2025-02-07T10:45:00',
+                'color' => '#9b59b6',
+            ],
+            [
+                'title' => 'Coupe femme - Clara Moreau',
+                'start' => '2025-02-08T11:00:00',
+                'end' => '2025-02-08T11:45:00',
+                'color' => '#9b59b6',
+            ],
+
+            // Colorations (Jaune)
+            [
+                'title' => 'Coloration - Mélanie Dubois',
+                'start' => '2025-02-08T12:00:00',
+                'end' => '2025-02-08T13:30:00',
+                'color' => '#f1c40f',
+            ],
+            [
+                'title' => 'Coloration - Emma Bernard',
+                'start' => '2025-02-09T15:00:00',
+                'end' => '2025-02-09T16:30:00',
+                'color' => '#f1c40f',
+            ],
+
+            // Autres prestations
+            [
+                'title' => 'Barbe - Thomas Garnier',
+                'start' => '2025-02-09T11:30:00',
+                'end' => '2025-02-09T12:00:00',
+                'color' => '#2ecc71', // Vert
+            ],
+            [
+                'title' => 'Permanente - Laura Petit',
+                'start' => '2025-02-07T16:00:00',
+                'end' => '2025-02-07T17:30:00',
+                'color' => '#9b59b6', // Violet
+            ],
+        ];
+
+        return $this->render('admin/reservations.html.twig', [
+            'reservations' => $reservations,
+        ]);
+    }
+
 }

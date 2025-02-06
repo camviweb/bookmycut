@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Réservations
+{% endblock %}
+
+{% block body %}
+
+	 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+	<style>
+		#calendar {
+			max-width: 1100px;
+			margin: 40px auto;
+		}
+	</style>
+
+	<div class="container mt-4">
+		<h2 class="text-center">Planning des réservations</h2>
+		<div id='calendar'></div>
+	</div>
+
+	 <script>
+	    document.addEventListener('DOMContentLoaded', function () {
+	        var calendarEl = document.getElementById('calendar');
+	        var calendar = new FullCalendar.Calendar(calendarEl, {
+	            initialView: 'timeGridWeek',
+	            locale: 'fr',
+	            headerToolbar: {
+	                left: 'prev,next today',
+	                center: 'title',
+	                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+	            },
+	            events: {{ reservations|json_encode|raw }}
+	        });
+	        calendar.render();
+	    });
+	</script>
+
+{% endblock %}
