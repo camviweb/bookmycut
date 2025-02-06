@@ -17,18 +17,28 @@ class AdminController extends AbstractController
                 'description' => 'Consultez et mettez à jour les stocks de produits.',
                 'link' => $this->generateUrl('app_admin_stock'),
                 'button_text' => 'Voir les stocks',
+                'icon' => 'bi-box-seam'
             ],
             [
                 'title' => 'Réservations',
                 'description' => 'Gérez les rendez-vous des clients.',
-                'link' => '#',
+                'link' => $this->generateUrl('app_admin_reservations'),
                 'button_text' => 'Voir les réservations',
+                'icon' => 'bi-calendar3'
+            ],
+            [
+                'title' => 'Chiffres d\'affaires',
+                'description' => 'Consultez les chiffres d\'affaires et les statistiques.',
+                'link' => $this->generateUrl('app_admin_chiffres_affaires'),
+                'button_text' => 'Voir les chiffres',
+                'icon' => 'bi-currency-dollar'
             ],
             [
                 'title' => 'Utilisateurs',
                 'description' => 'Gérez les comptes des clients et employés.',
                 'link' => '#',
                 'button_text' => 'Gérer les utilisateurs',
+                'icon' => 'bi-people'
             ],
         ];
 
@@ -81,12 +91,12 @@ class AdminController extends AbstractController
     {
         // Données fictives
         $revenusParJour = [
-            'Dim' => 2000, 'Lun' => 1000, 'Mar' => 2300,
-            'Mer' => 1500, 'Jeu' => 800, 'Ven' => 2000, 'Sam' => 2500,
+            'Dimanche' => 2000, 'Lundi' => 1000, 'Mardi' => 2300,
+            'Mercredi' => 1500, 'Jeudi' => 800, 'Vendredi' => 2000, 'Samedi' => 2500,
         ];
         $revenusMoisPrecedent = [
-            'Dim' => 1800, 'Lun' => 1200, 'Mar' => 2100,
-            'Mer' => 1700, 'Jeu' => 900, 'Ven' => 1900, 'Sam' => 2300,
+            'Dimanche' => 1800, 'Lundi' => 1200, 'Mardi' => 2100,
+            'Mercredi' => 1700, 'Jeudi' => 900, 'Vendredi' => 1900, 'Samedi' => 2300,
         ];
 
         // Chiffres globaux
