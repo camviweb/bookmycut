@@ -1,7 +1,7 @@
 <style>
     .navbar {
         background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
     }
 
     .navbar-nav .nav-link {
@@ -56,14 +56,34 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/services">Services</a>
+                    <a class="nav-link text-dark" href={{path('app_services')}}>Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/reservations">Réservations</a>
+                    <a class="nav-link text-dark" href={{path('app_reservations')}}>Réservations</a>
+                </li>
+                {# {{ if app.user is not defined }} #}
+                <li class="nav-item">
+{#                    <a class="nav-link text-dark" href={{path('app_login')}}>Connexion</a>#}
+                    <a class="nav-link text-dark">Connexion</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/login">Connexion</a>
+{#                    <a class="nav-link text-dark" href={{path('app_register')}}>Inscription</a>#}
+                    <a class="nav-link text-dark">Inscription</a>
                 </li>
+                {# {% else %} #}
+                    <li class="nav-item">
+                        {# <a class="nav-link text-dark" href="{{ path('app_logout') }}">Déconnexion</a> #}
+                        <a class="nav-link text-dark">Déconnexion</a>
+                    </li>
+                {# {% endif %} #}
+{#                {{ if is_granted('ROLE_ADMIN') }}#}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href={{path('app_admin')}}>Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href={{path('app_admin_stock')}}>Stock</a>
+                </li>
+{#                {{ endif }}#}
             </ul>
         </div>
     </nav>

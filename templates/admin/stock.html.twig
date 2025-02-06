@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Stock{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h2 class="text-center text-danger mb-4">Stock des produits</h2>
+
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-bordered shadow-sm">
+                <thead class="table-dark text-center">
+                <tr>
+                    <th>Produit</th>
+                    <th>Marque</th>
+                    <th>Description</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire (€)</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for produit in produits %}
+                    <tr class="align-middle">
+                        <td class="fw-semibold text-uppercase">{{ produit.nom | default('N/A') }}</td>
+                        <td class="text-secondary">{{ produit.marque | default('N/A') }}</td>
+                        <td class="fst-italic">{{ produit.description | default('Aucune description') }}</td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if produit.quantite > 5 %}success{% else %}danger{% endif %}">
+                                {{ produit.quantite }}
+                            </span>
+                        </td>
+                        <td class="fw-bold text-end text-nowrap">
+                            {{ produit.prix_unitaire | number_format(2, ',', ' ') }} €
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <h2 class="text-center text-danger mb-4">Produits à commander</h2>
+
+        ?
+    </div>
+
+
+
+
+{% endblock %}
