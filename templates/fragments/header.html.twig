@@ -63,17 +63,15 @@
                 </li>
                 {# {{ if app.user is not defined }} #}
                 <li class="nav-item">
-{#                    <a class="nav-link text-dark" href={{path('app_login')}}>Connexion</a>#}
-                    <a class="nav-link text-dark">Connexion</a>
+                    <a class="nav-link text-dark" href={{path('app_login')}}>Connexion</a>
                 </li>
                 <li class="nav-item">
-{#                    <a class="nav-link text-dark" href={{path('app_register')}}>Inscription</a>#}
-                    <a class="nav-link text-dark">Inscription</a>
+                    <a class="nav-link text-dark" href={{path('app_registration')}}>Inscription</a>
                 </li>
                 {# {% else %} #}
                     <li class="nav-item">
                         {# <a class="nav-link text-dark" href="{{ path('app_logout') }}">Déconnexion</a> #}
-                        <a class="nav-link text-dark">Déconnexion</a>
+                        {# text-dark">Déconnexion</a>#}
                     </li>
                 {# {% endif %} #}
 {#                {{ if is_granted('ROLE_ADMIN') }}#}
