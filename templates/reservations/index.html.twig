@@ -13,50 +13,15 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-		.calendrier {
-			margin-top: 20px;
-			display: flex;
-			gap: 20px;
-		}
-		.calendrier ul {
-			list-style-type: none;
-			padding: 0;
-		}
-		.calendrier li {
-			padding: 10px;
-			border: 1px solid #ccc;
-			margin-bottom: 5px;
-			background-color: #f9f9f9;
-			cursor: pointer;
-		}
-		.calendrier li:hover {
-			background-color: #e9ecef;
-		}
-	</style>
-
 	<script>
 		var $j = jQuery.noConflict();
 
-// Initialisation du Datepicker
 $j(document).ready(function () {
 if ($j("#datepicker").length) {
 $j("#datepicker").datepicker({
-dateFormat: "yy-mm-dd", // Format de la date (année-mois-jour)
-firstDay: 1, // Le premier jour de la semaine est lundi
-showOtherMonths: true, // Affiche les autres mois dans le calendrier
-selectOtherMonths: true // Permet de sélectionner les jours d'autres mois
+dateFormat: "yy-mm-dd", firstDay: 1, // lundi
+showOtherMonths: true,
+selectOtherMonths: true
 });
 } else {
 console.error('L\'élément #datepicker n\'a pas été trouvé');
@@ -64,26 +29,74 @@ console.error('L\'élément #datepicker n\'a pas été trouvé');
 });
 	</script>
 
-	<div class="example-wrapper">
+	<div class="container my-4">
 		<h1 class="text-danger">1. Choisir une prestation</h1>
 		<div class="mb-3">
 			<select class="form-select" id="prestationSelect">
 				<option selected>Choisissez une prestation</option>
-				<option value="prestation_1">Prestation 1</option>
-				<option value="prestation_2">Prestation 2</option>
-				<option value="prestation_3">Prestation 3</option>
+				<option value="cp1">Coupe Femme - cheveux courts</option>
+				<option value="cp2">Coupe Femme - cheveux longs</option>
+				<option value="cp3">Coupe Femme - permanente</option>
+				<option value="ch1">Coupe Homme - cheveux courts</option>
+				<option value="ch2">Coupe Homme - cheveux longs</option>
+				<option value="ch3">Coupe Homme - barbe</option>
 			</select>
 		</div>
 		<h1 class="text-danger">2. Choisir une date et une heure</h1>
 
-		<div class="calendrier">
-			<div id="datepicker"></div>
-			<ul>
-				<li>2025-02-09 10:00</li>
-				<li>2025-02-09 14:00</li>
-				<li>2025-02-10 09:00</li>
-				<li>2025-02-10 15:00</li>
-			</ul>
+		<div class="row justify-content-center">
+			<div class="col-md-4">
+				<div id="datepicker"></div>
+			</div>
+
+			<div class="col-md-8">
+				<h2 class="text-center mb-3">Créneaux disponibles</h2>
+				<div class="row test-center">
+					<div class="col">
+						<ul class="list-group">
+							<li class="list-group-item">9:00</li>
+							<li class="list-group-item">11:30</li>
+							<li class="list-group-item">14:00</li>
+							<li class="list-group-item">16:30</li>
+						</ul>
+					</div>
+					<div class="col">
+						<ul class="list-group">
+							<li class="list-group-item">9:30</li>
+							<li class="list-group-item">12:00</li>
+							<li class="list-group-item">14:30</li>
+							<li class="list-group-item">17:30</li>
+						</ul>
+					</div>
+					<div class="col">
+						<ul class="list-group">
+							<li class="list-group-item">10:00</li>
+							<li class="list-group-item">12:30</li>
+							<li class="list-group-item">15:30</li>
+							<li class="list-group-item">17:30</li>
+						</ul>
+					</div>
+					<div class="col">
+						<ul class="list-group">
+							<li class="list-group-item">10:30</li>
+							<li class="list-group-item">13:00</li>
+							<li class="list-group-item">15:30</li>
+							<li class="list-group-item">18:00</li>
+						</ul>
+					</div>
+					<div class="col">
+						<ul class="list-group">
+							<li class="list-group-item">11:00</li>
+							<li class="list-group-item">13:30</li>
+							<li class="list-group-item">16:00</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="d-flex justify-content-center mt-4">
+			<button class="btn btn-danger btn-lg">Confirmer votre rendez-vous</button>
 		</div>
 	</div>
 {% endblock %}
