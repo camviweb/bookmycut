@@ -5,7 +5,7 @@
 
 ### Les fonctionnalités
 - **Client :**
-- Création et authentification à un compte
+- En tant que client, je dois pouvoir créer un compte et m'y authentifier afin de prendre rendez-vous.
 - Prise de rendez-vous selon plusieurs critères (CRUD)
 - **Coiffeur :**
 - Création et authentification à un compte administrateur
