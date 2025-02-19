@@ -3,7 +3,6 @@
 {% block title %}Inscription{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <style>
         .required-star {
             color: red;
@@ -14,6 +13,13 @@
 {% block body %}
     <div class="p-5 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
         <h3 class="text-center mb-3">Créer un compte</h3>
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error|raw }}  <!-- Affiche les erreurs globales -->
+            </div>
+        {% endif %}
+
         <p class="text-center mb-3">Déjà inscrit ?
             <a href="{{ path('app_login') }}" style="color:black">Se connecter</a>
         </p>
@@ -22,28 +28,34 @@
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                {{ form_row(form.name) }}
+                <label for="name">Nom <span class="required-star">*</span></label>
+                {{ form_widget(form.name) }}
             </div>
             <div class="col-md-6 mb-3">
-                {{ form_row(form.surname) }}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                {{ form_row(form.email) }}
-            </div>
-            <div class="col-md-6 mb-3">
-                {{ form_row(form.phone) }}
+                <label for="surname">Prénom <span class="required-star">*</span></label>
+                {{ form_widget(form.surname) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                {{ form_row(form.password.first) }}
+                <label for="email">Email <span class="required-star">*</span></label>
+                {{ form_widget(form.email) }}
             </div>
             <div class="col-md-6 mb-3">
-                {{ form_row(form.password.second) }}
+                <label for="phone">Numéro de téléphone <span class="required-star">*</span></label>
+                {{ form_widget(form.phone) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="password.first">Mot de passe <span class="required-star">*</span></label>
+                {{ form_widget(form.password.first) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="password.second">Confirmer le mot de passe <span class="required-star">*</span></label>
+                {{ form_widget(form.password.second) }}
             </div>
         </div>
 

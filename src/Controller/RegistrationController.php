@@ -16,9 +16,22 @@ class RegistrationController extends AbstractController
     #[Route('/registration', name: 'app_registration')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        $error = null;
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+
+        // Vérifie si le formulaire a été soumis et a des erreurs
+        if ($form->isSubmitted() && !$form->isValid()) {
+            foreach ($form->getErrors(true) as $formError) {
+                $error .= $formError->getMessage() . '<br>';
+            }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Hash du mot de passe
@@ -27,8 +40,6 @@ class RegistrationController extends AbstractController
 
             // Rôle de l'utilisateur par défaut
             $user->setRole('ROLE_USER');
-//            $user->setRole('ROLE_ADMIN');
-//            $user->setRole('ROLE_SUPER_ADMIN');
 
             // Sauvegarde de l'utilisateur
             $entityManager->persist($user);
@@ -40,6 +51,8 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/registration.html.twig', [
             'form' => $form->createView(),
+            'error' => $error,
         ]);
     }
+
 }
