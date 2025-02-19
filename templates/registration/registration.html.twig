@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
-{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -13,15 +12,45 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Inscription</h2>
-    {{ form_start(form) }}
+    <div class="p-5 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
+        <h3 class="text-center mb-3">Créer un compte</h3>
+        <p class="text-center mb-3">Déjà inscrit ?
+            <a href="{{ path('app_login') }}" style="color:black">Se connecter</a>
+        </p>
 
-    {{ form_row(form.name) }}
-    {{ form_row(form.surname) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
-    {{ form_row(form.phone) }}
-    {{ form_row(form.submit) }}
+        {{ form_start(form) }}
 
-    {{ form_end(form) }}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(form.surname) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(form.phone) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_row(form.password.first) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(form.password.second) }}
+            </div>
+        </div>
+
+        <div class="text-center">
+            {{ form_row(form.submit) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
