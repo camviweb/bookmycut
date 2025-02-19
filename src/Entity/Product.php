@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -27,6 +29,17 @@ class Product
 
     #[ORM\Column]
     private ?int $unitPrice = null;
+
+    /**
+     * @var Collection<int, ProductUsage>
+     */
+    #[ORM\OneToMany(targetEntity: ProductUsage::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $productusage;
+
+    public function __construct()
+    {
+        $this->productusage = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +102,36 @@ class Product
     public function setUnitPrice(int $unitPrice): static
     {
         $this->unitPrice = $unitPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductUsage>
+     */
+    public function getProductusage(): Collection
+    {
+        return $this->productusage;
+    }
+
+    public function addProductusage(ProductUsage $productusage): static
+    {
+        if (!$this->productusage->contains($productusage)) {
+            $this->productusage->add($productusage);
+            $productusage->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductusage(ProductUsage $productusage): static
+    {
+        if ($this->productusage->removeElement($productusage)) {
+            // set the owning side to null (unless already changed)
+            if ($productusage->getProduct() === $this) {
+                $productusage->setProduct(null);
+            }
+        }
 
         return $this;
     }
