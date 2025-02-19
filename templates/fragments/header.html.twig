@@ -77,23 +77,10 @@
                     <a class="nav-link text-dark" href="{{ path('app_reservations') }}">Réservations</a>
                 </li>
 
-                <div class="vr mx-3"></div>
-                <hr class="hr">
-
-                {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="{{ path('app_registration') }}">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="{{ path('app_login') }}">Connexion</a>
-                    </li>
-                {% endif %}
-
                 {% if is_granted('ROLE_ADMIN') %}
+                    <div class="vr mx-3"></div>
+                    <hr class="hr">
+
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ path('app_admin') }}">Dashboard</a>
                     </li>
@@ -106,6 +93,25 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ path('app_admin_reservations') }}">Réservations</a>
+                    </li>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="vr mx-3"></div>
+                    <hr class="hr">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                {% else %}
+                    <div class="vr mx-3"></div>
+                    <hr class="hr">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ path('app_registration') }}">Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ path('app_login') }}">Connexion</a>
                     </li>
                 {% endif %}
 

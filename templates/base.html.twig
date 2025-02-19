@@ -17,12 +17,12 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding-top: 56px;
+            padding-top: 80px;
             min-width: 375px;
         }
 
         .fond-site {
-            background-image: url('/img/background.png');
+            background-image: url('{{ asset('/img/background.png') }}');
             background-repeat: repeat;
             background-size: 150px 150px;
             position: fixed;
@@ -35,6 +35,15 @@
 </head>
 
 {% include '/fragments/header.html.twig' %}
+
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
 
 <body>
     <div class="fond-site"></div>
