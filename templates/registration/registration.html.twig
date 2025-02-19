@@ -1,7 +1,3 @@
-
-
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Inscription
@@ -19,11 +15,13 @@
 {% block body %}
     <h2>Inscription</h2>
     {{ form_start(form) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.prenom) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.mdp) }}
-        {{ form_row(form.phone) }}
-        {{ form_row(form.submit) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.surname) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.submit) }}
+
     {{ form_end(form) }}
 {% endblock %}

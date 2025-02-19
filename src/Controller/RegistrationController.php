@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
@@ -21,8 +22,13 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Hash du mot de passe
-            $hashedPassword = $passwordHasher->hashPassword($user, $user->getMdp());
-            $user->setMdp($hashedPassword);
+            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashedPassword);
+
+            // Rôle de l'utilisateur par défaut
+            $user->setRole('ROLE_USER');
+//            $user->setRole('ROLE_ADMIN');
+//            $user->setRole('ROLE_SUPER_ADMIN');
 
             // Sauvegarde de l'utilisateur
             $entityManager->persist($user);
