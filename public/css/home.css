@@ -45,15 +45,16 @@
 .card-body {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-content: space-between;
     align-items: center;
+    flex-direction: column;
 }
 
 .testimonial-wrapper {
     display: flex;
     width: max-content;
-    animation: scroll 50s linear infinite;
+    animation: scroll 70s linear infinite;
 }
 
 @keyframes scroll {

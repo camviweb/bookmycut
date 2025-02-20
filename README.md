@@ -26,8 +26,9 @@
 - **US7. En tant que coiffeur, je veux acceder à une estimation du chiffres d'affaires mensuel afin d'avoir les statistiques.**
 - [ ] Lorsque je suis sur la page "Dashboards", quand je clique sur le bouton "Chiffre d'affaires", alors je suis sur la page "Chiffres d'affaires" et voir mon profit, le nombre de clients et les dernières transactions.
 
+
 ### Schéma de la base de données
-![Schéma](schema_bdd.png)
+![Schéma](schema_BDD.png)
 - 1 table utilisateur (client et coiffeur)
 - 1 table rendez-vous (date, horaire, prestation)
 - 1 table prestation (nom, produit nécessaire, quantité nécessaire)

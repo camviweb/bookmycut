@@ -6,9 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/admin')]
 class AdminController extends AbstractController
 {
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/', name: 'app_admin')]
     public function index(): Response
     {
         $cards = [
@@ -47,7 +48,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/stock', name: 'app_admin_stock')]
+    #[Route('/stock', name: 'app_admin_stock')]
     public function stock(): Response
     {
         $produits = [
@@ -86,7 +87,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/chiffres-affaires', name: 'app_admin_chiffres_affaires')]
+    #[Route('/chiffres-affaires', name: 'app_admin_chiffres_affaires')]
     public function chiffresAffaires(): Response
     {
         // Données fictives
@@ -128,7 +129,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/reservations', name: 'app_admin_reservations')]
+    #[Route('/reservations', name: 'app_admin_reservations')]
     public function reservations(): Response
     {
         $reservations = [
@@ -194,4 +195,4 @@ class AdminController extends AbstractController
         ]);
     }
 
-}
+}       

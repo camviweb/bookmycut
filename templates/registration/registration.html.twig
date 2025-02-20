@@ -1,75 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
-{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
-	<style>
-		.required-star {
-			color: red;
-		}
-	</style>
+    <style>
+        .required-star {
+            color: red;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-	<div class="hero mb-4">
-		<div class="container text-center">
-			<h1>Inscription</h1>
-			<p>Créez votre compte juste ici !</p>
-		</div>
-	</div>
-	<div class="p-4 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
-		<h3 class="text-center mb-3">S'inscrire</h3>
-		<p class="text-center mb-3">Déjà un compte ?
-			<a href="/login" style="color:black">Se connecter</a>
-		</p>
-		<form>
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="name" class="form-label">Nom
-						<span class="required-star">*</span>
-					</label>
-					<input type="text" class="form-control" style="border-color: black; border-width: 2px" id="name" placeholder="Entrez votre nom" required>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label for="surname" class="form-label">Prénom
-						<span class="required-star">*</span>
-					</label>
-					<input type="text" class="form-control" style="border-color: black; border-width: 2px" id="surname" placeholder="Entrez votre prénom" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="email" class="form-label">Email
-						<span class="required-star">*</span>
-					</label>
-					<input type="email" class="form-control" style="border-color: black; border-width: 2px" id="email" placeholder="Entrez votre email" required>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label for="phonenumber" class="form-label">Numéro de téléphone
-						<span class="required-star">*</span>
-					</label>
-					<input type="tel" class="form-control" style="border-color: black; border-width: 2px" id="phonenumber" placeholder="Entrez votre n° de téléphone" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label for="password" class="form-label">Mot de passe
-						<span class="required-star">*</span>
-					</label>
-					<input type="password" class="form-control" style="border-color: black; border-width: 2px" id="password" placeholder="Entrez votre mot de passe" required>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label for="confpassword" class="form-label">Confirmation du mot de passe
-						<span class="required-star">*</span>
-					</label>
-					<input type="password" class="form-control" style="border-color: black; border-width: 2px" id="confpassword" placeholder="Confirmez votre mot de passe" required>
-				</div>
-			</div>
-			<div class="container text-center">
-				<button type="submit" class="btn btn-danger btn-lg">S'inscrire</button>
-			</div>
-		</form>
-	</div>
+    <div class="p-5 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
+        <h3 class="text-center mb-3">Créer un compte</h3>
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error|raw }}  <!-- Affiche les erreurs globales -->
+            </div>
+        {% endif %}
+
+        <p class="text-center mb-3">Déjà inscrit ?
+            <a href="{{ path('app_login') }}" style="color:black">Se connecter</a>
+        </p>
+
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="name">Nom <span class="required-star">*</span></label>
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="surname">Prénom <span class="required-star">*</span></label>
+                {{ form_widget(form.surname) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="email">Email <span class="required-star">*</span></label>
+                {{ form_widget(form.email) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="phone">Numéro de téléphone <span class="required-star">*</span></label>
+                {{ form_widget(form.phone) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="password.first">Mot de passe <span class="required-star">*</span></label>
+                {{ form_widget(form.password.first) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="password.second">Confirmer le mot de passe <span class="required-star">*</span></label>
+                {{ form_widget(form.password.second) }}
+            </div>
+        </div>
+
+        <div class="text-center">
+            {{ form_row(form.submit) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

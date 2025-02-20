@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(ReviewRepository $reviewRepository): Response
     {
         // Données fictives pour les services
         $services = [
@@ -33,62 +34,11 @@ final class HomeController extends AbstractController
             ],
         ];
 
-// Données fictives pour les témoignages
-        $testimonials = [
-            [
-                'name' => 'Alice',
-                'profile_image' => '/images/testimonials/alice.jpg',
-                'feedback' => 'Un service exceptionnel et une équipe très professionnelle.',
-                'rating' => 5,
-                'date' => '10 décembre 2024',
-            ],
-            [
-                'name' => 'Bob',
-                'profile_image' => '/images/testimonials/bob.jpg',
-                'feedback' => 'Je suis très satisfait de ma coupe de cheveux. Merci !',
-                'rating' => 5,
-                'date' => '5 janvier 2025',
-            ],
-            [
-                'name' => 'Charlie',
-                'profile_image' => '/images/testimonials/charlie.jpg',
-                'feedback' => 'Des produits de qualité et un accueil chaleureux.',
-                'rating' => 5,
-                'date' => '20 décembre 2024',
-            ],
-            [
-                'name' => 'David',
-                'profile_image' => '/images/testimonials/david.jpg',
-                'feedback' => 'Je recommande vivement ce salon de coiffure.',
-                'rating' => 5,
-                'date' => '15 janvier 2025',
-            ],
-            [
-                'name' => 'Eve',
-                'profile_image' => '/images/testimonials/eve.jpg',
-                'feedback' => 'Un grand merci pour votre professionnalisme.',
-                'rating' => 5,
-                'date' => '25 décembre 2024',
-            ],
-            [
-                'name' => 'Frank',
-                'profile_image' => '/images/testimonials/frank.jpg',
-                'feedback' => 'Je suis très content de ma nouvelle coupe de cheveux.',
-                'rating' => 5,
-                'date' => '30 décembre 2024',
-            ],
-            [
-                'name' => 'Grace',
-                'profile_image' => '/images/testimonials/grace.jpg',
-                'feedback' => 'Un salon de coiffure au top !',
-                'rating' => 5,
-                'date' => '1 janvier 2025',
-            ],
-        ];
+        $avis = $reviewRepository->findAll();
         
         return $this->render('home/index.html.twig', [
             'services' => $services,
-            'testimonials' => $testimonials,
+            'avis' => $avis,
         ]);
     }
 }

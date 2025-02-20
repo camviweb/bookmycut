@@ -27,9 +27,10 @@
 
 {% block body %}
     <div class="container my-5">
-        <h2 class="text-center text-danger mb-4">Coupes Femme</h2>
 
         <div class="row justify-content-center">
+
+            <h2 class="text-center text-danger mb-4">Coupes Femme</h2>
             {% for coupe in coupes_femmes %}
                 <div class="col-lg-4 col-md-6 col-12 mb-4">
                     <img src="{{ asset('img/' ~ coupe.image) }}" class="card-img-top" alt="Coupe {{ coupe.nom }}">
@@ -57,6 +58,7 @@
                 </div>
             {% endfor %}
 
+            <h2 class="text-center text-danger mb-4">Coupes Homme</h2>
             {% for coupe in coupes_hommes %}
                 <div class="col-lg-4 col-md-6 col-12 mb-4">
                     <img src="{{ asset('img/' ~ coupe.image) }}" class="card-img-top" alt="Coupe {{ coupe.nom }}">
