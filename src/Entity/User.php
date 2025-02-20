@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
-#[ORM\Table(name: '`user`')]
 class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
@@ -19,10 +18,10 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $surname = null;
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -41,26 +40,26 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->name;
+        return $this->firstName;
     }
 
-    public function setName(string $name): static
+    public function setFirstName(string $firstName): static
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->surname;
+        return $this->lastName;
     }
 
-    public function setSurname(string $surname): static
+    public function setLastName(string $lastName): static
     {
-        $this->surname = $surname;
+        $this->lastName = $lastName;
 
         return $this;
     }

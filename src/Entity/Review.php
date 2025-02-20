@@ -18,14 +18,14 @@ class Review
     private ?string $feedback = null;
 
     #[ORM\Column]
-    private ?int $note = null;
+    private ?int $rating = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -44,14 +44,14 @@ class Review
         return $this;
     }
 
-    public function getNote(): ?int
+    public function getRating(): ?int
     {
-        return $this->note;
+        return $this->rating;
     }
 
-    public function setNote(int $note): static
+    public function setRating(int $rating): static
     {
-        $this->note = $note;
+        $this->rating = $rating;
 
         return $this;
     }
@@ -68,12 +68,12 @@ class Review
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 

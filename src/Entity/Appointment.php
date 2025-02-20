@@ -26,9 +26,9 @@ class Appointment
     private ?string $detail = null;
 
     /**
-     * @var Collection<int, user>
+     * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: user::class)]
+    #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $user;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -89,14 +89,14 @@ class Appointment
     }
 
     /**
-     * @return Collection<int, user>
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
         return $this->user;
     }
 
-    public function addUser(user $user): static
+    public function addUser(User $user): static
     {
         if (!$this->user->contains($user)) {
             $this->user->add($user);
@@ -105,7 +105,7 @@ class Appointment
         return $this;
     }
 
-    public function removeUser(user $user): static
+    public function removeUser(User $user): static
     {
         $this->user->removeElement($user);
 

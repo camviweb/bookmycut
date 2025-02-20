@@ -43,15 +43,15 @@
             <div class="row justify-content-center overflow-hidden">
                 <div class="col-12">
                     <div class="testimonial-wrapper d-flex overflow-hidden">
-                        {% for testimonial in testimonials %}
+                        {% for unAvis in avis %}
                             <div class="testimonial-card" style="margin: 0 10px; padding-top: 5px;">
                                 <div class="card shadow-sm">
                                     <div class="card-body text-center" style="height: 150px; width: 300px;">
-                                        <h5>{{ testimonial.name }}</h5>
-                                        <p class="fst-italic">"{{ testimonial.feedback }}"</p>
+                                        <h5>{{ unAvis.user.firstName }} {{ unAvis.user.lastName }}</h5>
+                                        <p class="fst-italic">"{{ unAvis.feedback }}"</p>
                                         <div>
-                                            <span class="badge bg-warning text-dark">{{ testimonial.rating }} ★</span>
-                                            <span class="text-muted ms-2">{{ testimonial.date }}</span>
+                                            <span class="badge bg-warning text-dark">{{ unAvis.rating }} ★</span>
+                                            <span class="text-muted ms-2">{{ unAvis.date|date('j F Y') }}</span>
                                         </div>
                                     </div>
                                 </div>
