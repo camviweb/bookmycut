@@ -18,18 +18,14 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Nom <span class="required-star">*</span>',
-                'label_html' => true,
+            ->add('lastname', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre nom',
                     'style' => 'border-color: black; border-width: 2px',
                 ],
             ])
-            ->add('surname', TextType::class, [
-                'label' => 'Prénom <span class="required-star">*</span>',
-                'label_html' => true,
+            ->add('firstname', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre prénom',
@@ -37,8 +33,6 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email <span class="required-star">*</span>',
-                'label_html' => true,
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre email',
@@ -46,8 +40,6 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Numéro de téléphone <span class="required-star">*</span>',
-                'label_html' => true,
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre numéro',
@@ -56,9 +48,7 @@ class UserType extends AbstractType
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options'  => [
-                    'label' => 'Mot de passe <span class="required-star">*</span>',
-                    'label_html' => true,
+                'first_options' => [
                     'attr' => [
                         'class' => 'form-control',
                         'placeholder' => 'Créez un mot de passe',
@@ -66,8 +56,6 @@ class UserType extends AbstractType
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirmer le mot de passe <span class="required-star">*</span>',
-                    'label_html' => true,
                     'attr' => [
                         'class' => 'form-control',
                         'placeholder' => 'Confirmez votre mot de passe',
