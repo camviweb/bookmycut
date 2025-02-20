@@ -10,10 +10,6 @@ up:
 down:
 	docker compose -f $(DOCKER_COMPOSE_FILEPATH) down
 
-# Connect to the PHP container
-start:
-	docker exec -it $(DOCKER_PHP_CONTAINER) /bin/bash
-
 # Recreate the containers (useful after modifying the Dockerfile)
 build:
 	docker compose -f $(DOCKER_COMPOSE_FILEPATH) up --build -d
