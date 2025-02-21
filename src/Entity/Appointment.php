@@ -41,6 +41,9 @@ class Appointment
     #[ORM\ManyToMany(targetEntity: ProductUsage::class, inversedBy: 'appointments')]
     private Collection $productusage;
 
+    #[ORM\Column]
+    private ?int $status = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -144,6 +147,18 @@ class Appointment
     public function removeProductusage(ProductUsage $productusage): static
     {
         $this->productusage->removeElement($productusage);
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -28,7 +28,7 @@
 
 
 ### Schéma de la base de données
-![Schéma](schema_BDD.png)
+![Schéma](Schema_BDD.png)
 - 1 table utilisateur (client et coiffeur)
 - 1 table rendez-vous (date, horaire, prestation)
 - 1 table prestation (nom, produit nécessaire, quantité nécessaire)
