@@ -17,6 +17,9 @@ class Service
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $category = null;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
@@ -26,9 +29,24 @@ class Service
     #[ORM\Column]
     private ?int $duration = null;
 
+    #[ORM\Column]
+    private ?string $photo = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -78,4 +96,17 @@ class Service
 
         return $this;
     }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): static
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
 }

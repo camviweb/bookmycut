@@ -25,13 +25,11 @@ class Appointment
     #[ORM\Column(length: 255)]
     private ?string $detail = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class)]
-    private Collection $user;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
+    private ?User $user = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Service::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?service $service = null;
 
@@ -46,7 +44,6 @@ class Appointment
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
         $this->productusage = new ArrayCollection();
     }
 
@@ -91,26 +88,21 @@ class Appointment
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
     public function addUser(User $user): static
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-        }
+        $this->user = $user;
 
         return $this;
     }
 
     public function removeUser(User $user): static
     {
-        $this->user->removeElement($user);
+        $this->user = null;
 
         return $this;
     }
