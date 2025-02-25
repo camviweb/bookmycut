@@ -4,65 +4,131 @@
 
 {% block stylesheets %}
     <style>
+
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            
+        } 
+        .full-page-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 50px;
+        }  
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        .form-container h3, 
+        .form-container label,
+        .form-container p {
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
         .required-star {
             color: red;
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease-in-out;
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff; 
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .login-link {
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .login-link:hover {
+            color: #dce775;
+            text-decoration: underline;
         }
     </style>
 {% endblock %}
 
 {% block body %}
-    <div class="p-5 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
-        <h3 class="text-center mb-3">Créer un compte</h3>
+    <div class="full-page-container">
+        <div class="form-container">
+            <h3 class="mb-4">Créer un compte</h3>
 
-        {% if error %}
-            <div class="alert alert-danger" role="alert">
-                {{ error|raw }}  <!-- Affiche les erreurs globales -->
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error|raw }}
+                </div>
+            {% endif %}
+
+            <p class="text-center mb-3">Déjà inscrit ?
+                <a href="{{ path('app_login') }}" class="login-link">Se connecter</a>
+            </p>
+
+            {{ form_start(form) }}
+
+            <div class="mb-3">
+                <label>Nom <span class="required-star">*</span></label>
+                {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
             </div>
-        {% endif %}
 
-        <p class="text-center mb-3">Déjà inscrit ?
-            <a href="{{ path('app_login') }}" style="color:black">Se connecter</a>
-        </p>
-
-        {{ form_start(form) }}
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="lastname">Nom <span class="required-star">*</span></label>
-                {{ form_widget(form.lastname) }}
+            <div class="mb-3">
+                <label>Prénom <span class="required-star">*</span></label>
+                {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <div class="col-md-6 mb-3">
-                <label for="firstname">Prénom <span class="required-star">*</span></label>
-                {{ form_widget(form.firstname) }}
+
+            <div class="mb-3">
+                <label>Email <span class="required-star">*</span></label>
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
             </div>
+
+            <div class="mb-3">
+                <label>Numéro de téléphone <span class="required-star">*</span></label>
+                {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                <label>Mot de passe <span class="required-star">*</span></label>
+                {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                <label>Confirmer le mot de passe <span class="required-star">*</span></label>
+                {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="text-center">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-danger btn-lg'}}) }}
+            </div>
+
+            {{ form_end(form) }}
         </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="email">Email <span class="required-star">*</span></label>
-                {{ form_widget(form.email) }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="phone">Numéro de téléphone <span class="required-star">*</span></label>
-                {{ form_widget(form.phone) }}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="password.first">Mot de passe <span class="required-star">*</span></label>
-                {{ form_widget(form.password.first) }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="password.second">Confirmer le mot de passe <span class="required-star">*</span></label>
-                {{ form_widget(form.password.second) }}
-            </div>
-        </div>
-
-        <div class="text-center">
-            {{ form_row(form.submit) }}
-        </div>
-
-        {{ form_end(form) }}
     </div>
 {% endblock %}
