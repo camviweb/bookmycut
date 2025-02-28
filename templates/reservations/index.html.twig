@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réservations{% endblock %}
+{% block title %}Réservations
+{% endblock %}
 
 {% block body %}
 	<!-- Bootstrap & jQuery -->
@@ -15,45 +16,42 @@
 	<script>
 		var $j = jQuery.noConflict();
 
-		$j(document).ready(function () {
-			if ($j("#datepicker").length) {
-				$j("#datepicker").datepicker({
-					dateFormat: "yy-mm-dd",
-					firstDay: 1, // lundi
-					showOtherMonths: true,
-					selectOtherMonths: true
-				});
-			}
+$j(document).ready(function () {
+if ($j("#datepicker").length) {
+$j("#datepicker").datepicker({
+dateFormat: "yy-mm-dd", firstDay: 1, // lundi
+showOtherMonths: true,
+selectOtherMonths: true
+});
+}
 
-			// Permet de sélectionner un seul créneau à la fois
-			$j('.slot-checkbox').on('change', function () {
-				$j('.slot-checkbox').not(this).prop('checked', false);
-				$j('.slot-btn').removeClass('btn-danger').addClass('btn-outline-secondary');
-				if (this.checked) {
-					$j(this).next('label').removeClass('btn-outline-secondary').addClass('btn-danger');
-				}
-			});
-			// Mettre à jour les prestations selon la catégorie choisie
-            $j('#categorySelect').on('change', function() {
-                var category = $j(this).val();
-                if (category) {
-                    // Requête AJAX pour récupérer les prestations en fonction du sexe choisi
-                    $j.ajax({
-                        url: '/services/filtered/' + category,
-                        method: 'GET',
-                        success: function(data) {
-                            // Effacer les anciennes options
-                            $j('#prestationSelect').empty();
-                            $j('#prestationSelect').append('<option selected>Choisissez une prestation</option>');
-                            // Ajouter les nouvelles options
-                            data.forEach(function(service) {
-                                $j('#prestationSelect').append('<option value="' + service.id + '">' + service.name + '</option>');
-                            });
-                        }
-                    });
-                }
-            });
-		});
+// Permet de sélectionner un seul créneau à la fois
+$j('.slot-checkbox').on('change', function () {
+$j('.slot-checkbox').not(this).prop('checked', false);
+$j('.slot-btn').removeClass('btn-danger').addClass('btn-outline-secondary');
+if (this.checked) {
+$j(this).next('label').removeClass('btn-outline-secondary').addClass('btn-danger');
+}
+});
+// Mettre à jour les prestations selon la catégorie choisie
+$j('#categorySelect').on('change', function () {
+var category = $j(this).val();
+if (category) { // Requête AJAX pour récupérer les prestations en fonction du sexe choisi
+$j.ajax({
+url: '/services/filtered/' + category,
+method: 'GET',
+success: function (data) { // Effacer les anciennes options
+$j('#prestationSelect').empty();
+$j('#prestationSelect').append('<option selected>Choisissez une prestation</option>');
+// Ajouter les nouvelles options
+data.forEach(function (service) {
+$j('#prestationSelect').append('<option value="' + service.id + '">' + service.name + '</option>');
+});
+}
+});
+}
+});
+});
 	</script>
 
 	<style>
@@ -70,7 +68,8 @@
 	<div class="container my-4">
 		<h1 class="text-danger">1. Choisir une prestation</h1>
 
-		<div class="mb-3">
+		<div
+			class="mb-3">
 			<!-- Sélecteur de catégorie (Homme ou Femme) -->
 			<select class="form-select" id="categorySelect">
 				<option selected>Choisissez un genre</option>
@@ -79,7 +78,8 @@
 			</select>
 		</div>
 
-		<div class="mb-3">
+		<div
+			class="mb-3">
 			<!-- Sélecteur de prestations qui se mettra à jour dynamiquement -->
 			<select class="form-select" id="prestationSelect">
 				<option selected>Choisissez une prestation</option>
@@ -117,7 +117,47 @@
 		</div>
 
 		<div class="d-flex justify-content-center mt-4">
-			<button class="btn btn-danger btn-lg">Confirmer votre rendez-vous</button>
+			<button class="btn btn-danger btn-lg" id="confirmButton">Confirmer votre rendez-vous</button>
 		</div>
+
+		<script>
+			var $j = jQuery.noConflict();
+
+$j(document).ready(function () {
+$j('#confirmButton').on('click', function () {
+var selectedDate = $j("#datepicker").val(); 
+var selectedHour = $j('.slot-checkbox:checked').val();
+var selectedPrestation = $j('#prestationSelect').val();
+
+if (! selectedDate || ! selectedHour || ! selectedPrestation) {
+alert('Veuillez remplir tous les champs.');
+return;
+}
+
+var appointmentDate = selectedDate + ' ' + selectedHour;
+
+$j.ajax({
+url: '/appointment/create',
+method: 'POST',
+data: {
+date: appointmentDate,
+prestation: selectedPrestation,
+userId: {{ app.user.id }}
+},
+success: function (response) { 
+if (response.success) {
+alert('Votre rendez-vous a été confirmé !');
+} else {
+alert('Une erreur est survenue.');
+}
+},
+error: function () {
+alert('Une erreur est survenue lors de la requête.');
+}
+});
+});
+});
+		</script>
+
 	</div>
 {% endblock %}
