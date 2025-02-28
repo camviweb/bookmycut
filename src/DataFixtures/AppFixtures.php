@@ -29,18 +29,18 @@ class AppFixtures extends Fixture
         // Création de services
         $services = [];
         $serviceData = [
-            ['name' => 'Coupe Homme', 'category' => 'hommes'],
-            ['name' => 'Barbe', 'category' => 'hommes'],
-            ['name' => 'Coupe Femme', 'category' => 'femmes'],
-            ['name' => 'Brushing', 'category' => 'femmes'],
-            ['name' => 'Coloration', 'category' => 'femmes'],
-            ['name' => 'Permanente', 'category' => 'femmes'],
-            ['name' => 'Lissage', 'category' => 'femmes'],
-            ['name' => 'Mèches', 'category' => 'femmes'],
-            ['name' => 'Soin capillaire', 'category' => 'femmes'],
-            ['name' => 'Massage du cuir chevelu', 'category' => 'hommes'],
-            ['name' => 'Rasage à l’ancienne', 'category' => 'hommes'],
-            ['name' => 'Taille de la moustache', 'category' => 'hommes'],
+            ['name' => 'Coupe Homme', 'category' => 'hommes', 'photo' => 'homme-courte.png'],
+            ['name' => 'Barbe', 'category' => 'hommes', 'photo' => 'homme-barbe.png'],
+            ['name' => 'Coupe Femme', 'category' => 'femmes', 'photo' => 'femme-courte.png'],
+            ['name' => 'Brushing', 'category' => 'femmes', 'photo' => 'femme-longue.png'],
+            ['name' => 'Coloration', 'category' => 'femmes', 'photo' => 'femme-longue.png'],
+            ['name' => 'Permanente', 'category' => 'femmes', 'photo' => 'femme-permanente.png'],
+            ['name' => 'Lissage', 'category' => 'femmes', 'photo' => 'femme-longue.png'],
+            ['name' => 'Mèches', 'category' => 'femmes', 'photo' => 'femme-courte.png'],
+            ['name' => 'Soin capillaire', 'category' => 'femmes', 'photo' => 'femme-longue.png'],
+            ['name' => 'Massage du cuir chevelu', 'category' => 'hommes', 'photo' => 'homme-courte.png'],
+            ['name' => 'Rasage à l’ancienne', 'category' => 'hommes', 'photo' => 'homme-barbe.png'],
+            ['name' => 'Taille de la moustache', 'category' => 'hommes', 'photo' => 'homme-barbe.png'],
         ];
 
         foreach ($serviceData as $data) {
@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
                 ->setPrice(mt_rand(15, 45))
                 ->setDuration(mt_rand(30, 90))
                 ->setCategory($data['category'])
-                ->setPhoto('default.jpg');
+                ->setPhoto($data['photo']);
 
             $manager->persist($service);
             $services[] = $service;
@@ -138,7 +138,7 @@ class AppFixtures extends Fixture
                 $numClients = mt_rand(1, 2);
                 for ($j = 0; $j < $numClients; $j++) {
                     $client = $users[array_rand($users)];
-                    $appointment->addUser($client);  // Ajouter le client au rendez-vous
+                    $appointment->setUser($client);  // Ajouter le client au rendez-vous
                 }
 
                 $manager->persist($appointment);
