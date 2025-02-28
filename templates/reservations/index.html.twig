@@ -33,6 +33,26 @@
 					$j(this).next('label').removeClass('btn-outline-secondary').addClass('btn-danger');
 				}
 			});
+			// Mettre à jour les prestations selon la catégorie choisie
+            $j('#categorySelect').on('change', function() {
+                var category = $j(this).val();
+                if (category) {
+                    // Requête AJAX pour récupérer les prestations en fonction du sexe choisi
+                    $j.ajax({
+                        url: '/services/filtered/' + category,
+                        method: 'GET',
+                        success: function(data) {
+                            // Effacer les anciennes options
+                            $j('#prestationSelect').empty();
+                            $j('#prestationSelect').append('<option selected>Choisissez une prestation</option>');
+                            // Ajouter les nouvelles options
+                            data.forEach(function(service) {
+                                $j('#prestationSelect').append('<option value="' + service.id + '">' + service.name + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
 		});
 	</script>
 
@@ -66,9 +86,7 @@
 			</select>
 		</div>
 
-		<script>
-			// Faire en sorte que la liste de prestation se mette à jour en fonction de la catégorie choisie
-		</script>
+		<!--<script>Faire en sorte que la liste de prestation se mette à jour en fonction de la catégorie choisie</script>-->
 
 		<h1 class="text-danger">2. Choisir une date et une heure</h1>
 

@@ -11,7 +11,7 @@
 - [ ] Lorsque je suis sur la page d'accueil, quand je clique sur "Services", alors je peux voir tous les services disponibles. 
 - **US3. En tant que client, je veux réserver une prestation afin d'obtenir ma prestation.**
 - [ ] Lorsque je suis sur la page "Services" et que j'ai chosi ma prestation, quand je clique sur "Réserver", alors je suis sur la page "Réservations".
-- [ ] - [ ] Lorsque je suis sur la page "Réservations", quand je chosis une date, alors les crenaux disponibles sont affichés et je peux choisir une heure. 
+- [ ] Lorsque je suis sur la page "Réservations", quand je chosis une date, alors les crenaux disponibles sont affichés et je peux choisir une heure. 
 - [ ] Lorsque je suis sur la page "Réservations", quand je chosis une heure, alors je peux cliquer sur "Confirmer votre rendez-vous". 
 - **Coiffeur :**
 - **US4. En tant que coiffeur, je veux m'authentifier à un compte administrateur afin de voir les fonctionnalites admin.**
@@ -28,7 +28,7 @@
 
 
 ### Schéma de la base de données
-![Schéma](Schema_BDD.png)
+![Schéma](schema_bdd.png)
 - 1 table utilisateur (client et coiffeur)
 - 1 table rendez-vous (date, horaire, prestation)
 - 1 table prestation (nom, produit nécessaire, quantité nécessaire)
