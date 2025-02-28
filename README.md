@@ -6,29 +6,27 @@
 ### User Stories  
 - **US1. En tant que client, je veux créer un compte et m'y authentifier afin de prendre rendez-vous.**
 - [ ] Lorsque je suis sur la page "Inscription", quand j'ai rempli le formulaire et que je clique sur le bouton "S'inscrire", alors je peux me connecter à mon compte. 
-- [ ] Lorsque je suis sur la page "Connexion", quand j'ai rempli mon email, mon mot de passe et que je clique sur le bouton "Connexion", alors je suis connectée et je peux prendre rendez-vous.
+- [ ] Lorsque je suis sur la page "Connexion", quand j'ai rempli mon email et mon mot de passe et que je clique sur le bouton "Connexion", alors je suis connectée et je peux prendre rendez-vous.
 - **US2. En tant que client, je veux avoir des informations sur les prestations afin de choisir ma prestation.**
 - [ ] Lorsque je suis sur la page d'accueil, quand je clique sur "Services", alors je peux voir tous les services disponibles. 
 - **US3. En tant que client, je veux réserver une prestation afin d'obtenir ma prestation.**
 - [ ] Lorsque je suis sur la page "Services" et que j'ai chosi ma prestation, quand je clique sur "Réserver", alors je suis sur la page "Réservations".
-- [ ] - [ ] Lorsque je suis sur la page "Réservations", quand je chosis une date, alors les crenaux disponibles sont affichés et je peux choisir une heure. 
-- [ ] Lorsque je suis sur la page "Réservations", quand je chosis une heure, alors je peux cliquer sur "Confirmer votre rendez-vous". 
-- **Coiffeur :**
-- **US4. En tant que coiffeur, je veux m'authentifier à un compte administrateur afin de voir les fonctionnalites admin.**
-- [ ] Lorsque je suis sur la page "Connexion", quand j'ai rempli mon email, mon mot de passe et que je clique sur le bouton "Connexion", alors je suis connectée et je peux voir les fonctionnalites admin
+- [ ] Lorsque je suis sur la page "Réservations", quand je choisis une date, alors les créneaux disponibles sont affichés et je peux choisir une heure. 
+- [ ] Lorsque je suis sur la page "Réservations", quand je choisis une heure, alors je peux cliquer sur "Confirmer votre rendez-vous". 
+- **US4. En tant que coiffeur, je veux m'authentifier à un compte administrateur afin de voir les fonctionnalités admin.**
+- [ ] Lorsque je suis sur la page "Connexion", quand j'ai rempli mon email et mon mot de passe et que je clique sur le bouton "Connexion", alors je suis connectée et je peux voir les fonctionnalités admin.
 - **US5. En tant que coiffeur, je veux voir l'agenda avec les rendez-vous afin de m'organiser.**
 - [ ] Lorsque je suis sur la page "Dashboard", quand je clique sur le bouton "Voir les réservations", alors je suis sur la page "Réservations".
 - [ ] Lorsque je suis sur la page "Réservations", quand je clique sur le bouton "month", alors je vois mon agenda avec les rendez-vous planifiés pour le mois choisi.
 - [ ] Lorsque je suis sur la page "Réservations", quand je clique sur le bouton "week", alors je vois mon agenda avec les rendez-vous planifiés pour la semaine choisie.
 - [ ] Lorsque je suis sur la page "Réservations", quand je clique sur le bouton "day", alors je vois mon agenda avec les rendez-vous planifiés pour le jour choisi.
-- **US6. En tant que coiffeur, je veux avoir l'information sur mon stock afin de générer une liste de courses.**
+- **US6. En tant que coiffeur, je veux voir les informations sur mon stock afin de générer une liste de courses.**
 - [ ] Lorsque je suis sur la page "Dashboard", quand je clique sur le bouton "Mon stock", alors je suis sur la page "Stock" et je vois mon stock et les produits à commander.
-- **US7. En tant que coiffeur, je veux acceder à une estimation du chiffres d'affaires mensuel afin d'avoir les statistiques.**
-- [ ] Lorsque je suis sur la page "Dashboards", quand je clique sur le bouton "Chiffre d'affaires", alors je suis sur la page "Chiffres d'affaires" et voir mon profit, le nombre de clients et les dernières transactions.
-
+- **US7. En tant que coiffeur, je veux accéder à une estimation de mon chiffre d'affaires mensuel afin d'avoir des statistiques.**
+- [ ] Lorsque je suis sur la page "Dashboards", quand je clique sur le bouton "Chiffre d'affaires", alors je suis sur la page "Chiffres d'affaires" et je vois mon profit, le nombre de clients et les dernières transactions.
 
 ### Schéma de la base de données
-![Schéma](Schema_BDD.png)
+![Schéma](schema_bdd.png)
 - 1 table utilisateur (client et coiffeur)
 - 1 table rendez-vous (date, horaire, prestation)
 - 1 table prestation (nom, produit nécessaire, quantité nécessaire)

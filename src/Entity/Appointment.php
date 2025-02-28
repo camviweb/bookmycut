@@ -93,7 +93,7 @@ class Appointment
         return $this->user;
     }
 
-    public function addUser(User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
