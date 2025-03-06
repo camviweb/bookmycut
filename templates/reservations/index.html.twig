@@ -1,163 +1,93 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réservations
-{% endblock %}
+{% block title %}Réservations{% endblock %}
 
 {% block body %}
-	<!-- Bootstrap & jQuery -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-	<!-- jQuery UI -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/css/datepicker.css">
+    <script src="/js/datepicker-fr.min.js"></script>
+    <script src="/js/reservations.js"></script>
 
-	<script>
-		var $j = jQuery.noConflict();
+    <style>
+        .slot-checkbox {
+            display: none;
+        }
 
-$j(document).ready(function () {
-if ($j("#datepicker").length) {
-$j("#datepicker").datepicker({
-dateFormat: "yy-mm-dd", firstDay: 1, // lundi
-showOtherMonths: true,
-selectOtherMonths: true
-});
-}
+        .slot-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-// Permet de sélectionner un seul créneau à la fois
-$j('.slot-checkbox').on('change', function () {
-$j('.slot-checkbox').not(this).prop('checked', false);
-$j('.slot-btn').removeClass('btn-danger').addClass('btn-outline-secondary');
-if (this.checked) {
-$j(this).next('label').removeClass('btn-outline-secondary').addClass('btn-danger');
-}
-});
-// Mettre à jour les prestations selon la catégorie choisie
-$j('#categorySelect').on('change', function () {
-var category = $j(this).val();
-if (category) { // Requête AJAX pour récupérer les prestations en fonction du sexe choisi
-$j.ajax({
-url: '/services/filtered/' + category,
-method: 'GET',
-success: function (data) { // Effacer les anciennes options
-$j('#prestationSelect').empty();
-$j('#prestationSelect').append('<option selected>Choisissez une prestation</option>');
-// Ajouter les nouvelles options
-data.forEach(function (service) {
-$j('#prestationSelect').append('<option value="' + service.id + '">' + service.name + '</option>');
-});
-}
-});
-}
-});
-});
-	</script>
+        .slot-btn.disabled {
+            background-color: #d1d1d1;
+            color: #424242;
+            cursor: not-allowed;
+        }
+    </style>
 
-	<style>
-		.slot-btn {
-			width: 100%;
-			padding: 10px;
-			font-size: 16px;
-			border-radius: 8px;
-			cursor: pointer;
-			transition: all 0.3s ease;
-		}
-	</style>
+    <div class="container my-4">
+        <form action="{{ path('app_create_reservation') }}" method="POST" id="reservationForm">
 
-	<div class="container my-4">
-		<h1 class="text-danger">1. Choisir une prestation</h1>
+            <h1 class="text-danger">1. Choisir une prestation</h1>
 
-		<div
-			class="mb-3">
-			<!-- Sélecteur de catégorie (Homme ou Femme) -->
-			<select class="form-select" id="categorySelect">
-				<option selected>Choisissez un genre</option>
-				<option value="hommes">Hommes</option>
-				<option value="femmes">Femmes</option>
-			</select>
-		</div>
+            <div class="mb-3">
+                <select class="form-select" id="categorySelect" required>
+                    <option disabled selected>Choisissez un genre</option>
+                    <option value="hommes">Hommes</option>
+                    <option value="femmes">Femmes</option>
+                </select>
+            </div>
 
-		<div
-			class="mb-3">
-			<!-- Sélecteur de prestations qui se mettra à jour dynamiquement -->
-			<select class="form-select" id="prestationSelect">
-				<option selected>Choisissez une prestation</option>
-			</select>
-		</div>
+            <div class="mb-3">
+                <select class="form-select" id="prestationSelect" required></select>
+            </div>
 
-		<!--<script>Faire en sorte que la liste de prestation se mette à jour en fonction de la catégorie choisie</script>-->
+            <h1 class="text-danger">2. Choisir une date et une heure</h1>
 
-		<h1 class="text-danger">2. Choisir une date et une heure</h1>
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="datepicker" placeholder="Choisissez une date" required>
+                </div>
 
-		<div class="row justify-content-center">
-			<div class="col-md-4">
-				<div id="datepicker"></div>
-			</div>
+                <div class="col-md-8">
+                    <h2 class="text-center mb-3">Créneaux disponibles</h2>
+                    <div class="row">
+                        {% for horaire in horaires %}
+                            <div class="col-3 mb-2 text-center">
+                                <input class="slot-checkbox" type="checkbox" id="slot-{{ loop.index }}"
+                                       value="{{ horaire }}" disabled>
+                                <label class="btn btn-outline-secondary slot-btn disabled" for="slot-{{ loop.index }}">
+                                    {{ horaire }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
-			<div class="col-md-8">
-				<h2 class="text-center mb-3">Créneaux disponibles</h2>
-				<div class="row">
-					{% set horaires = [
-						'9:00', '9:30', '10:00', '10:30', '11:00',
-						'11:30', '12:00', '13:00', '13:30', '14:00',
-						'14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'
-					] %}
+            <div class="d-flex justify-content-center mt-4">
+                {% if app.user %}
+                    <input type="hidden" name="date" id="selectedDate">
+                <input type="hidden" name="prestation" id="selectedPrestation">
+                    <input type="hidden" name="userId" value="{{ app.user.id }}">
+                <input type="hidden" name="horaire" id="selectedHoraire">
+                <button type="submit" class="btn btn-danger btn-lg" id="confirmButton" disabled>
+                    Confirmer votre rendez-vous
+                </button>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-danger btn-lg">Connectez-vous pour réserver</a>
+                {% endif %}
+            </div>
+        </form>
 
-					{% for horaire in horaires %}
-						<div class="col-3 mb-2 text-center">
-							<input class="d-none slot-checkbox" type="checkbox" id="slot-{{ loop.index }}" value="{{ horaire }}">
-							<label class="btn btn-outline-secondary slot-btn" for="slot-{{ loop.index }}">
-								{{ horaire }}
-							</label>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-
-		<div class="d-flex justify-content-center mt-4">
-			<button class="btn btn-danger btn-lg" id="confirmButton">Confirmer votre rendez-vous</button>
-		</div>
-
-		<script>
-			var $j = jQuery.noConflict();
-
-$j(document).ready(function () {
-$j('#confirmButton').on('click', function () {
-var selectedDate = $j("#datepicker").val(); 
-var selectedHour = $j('.slot-checkbox:checked').val();
-var selectedPrestation = $j('#prestationSelect').val();
-
-if (! selectedDate || ! selectedHour || ! selectedPrestation) {
-alert('Veuillez remplir tous les champs.');
-return;
-}
-
-var appointmentDate = selectedDate + ' ' + selectedHour;
-
-$j.ajax({
-url: '/appointment/create',
-method: 'POST',
-data: {
-date: appointmentDate,
-prestation: selectedPrestation,
-userId: {{ app.user.id }}
-},
-success: function (response) { 
-if (response.success) {
-alert('Votre rendez-vous a été confirmé !');
-} else {
-alert('Une erreur est survenue.');
-}
-},
-error: function () {
-alert('Une erreur est survenue lors de la requête.');
-}
-});
-});
-});
-		</script>
-
-	</div>
+    </div>
 {% endblock %}
