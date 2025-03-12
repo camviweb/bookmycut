@@ -21,16 +21,16 @@
                 <tbody>
                 {% for produit in produits %}
                     <tr class="align-middle">
-                        <td class="fw-semibold text-uppercase">{{ produit.nom | default('N/A') }}</td>
-                        <td class="text-secondary">{{ produit.marque | default('N/A') }}</td>
+                        <td class="fw-semibold text-uppercase">{{ produit.type | default('N/A') }}</td>
+                        <td class="text-secondary">{{ produit.brand | default('N/A') }}</td>
                         <td class="fst-italic">{{ produit.description | default('Aucune description') }}</td>
                         <td class="text-center">
-                            <span class="badge bg-{% if produit.quantite > 5 %}success{% else %}danger{% endif %}">
-                                {{ produit.quantite }}
+                            <span class="badge bg-{% if produit.quantity > 5 %}success{% else %}danger{% endif %}">
+                                {{ produit.quantity }}
                             </span>
                         </td>
                         <td class="fw-bold text-end text-nowrap">
-                            {{ produit.prix_unitaire | number_format(2, ',', ' ') }} €
+                            {{ produit.unitprice | number_format(2, ',', ' ') }} €
                         </td>
                     </tr>
                 {% endfor %}

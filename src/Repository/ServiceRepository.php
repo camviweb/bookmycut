@@ -16,6 +16,7 @@ class ServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Service::class);
     }
 
+<<<<<<< HEAD
     public function findByCategory(string $category)
 {
     return $this->createQueryBuilder('s')
@@ -50,3 +51,6 @@ class ServiceRepository extends ServiceEntityRepository
     //        ;
     //    }
 }
+=======
+}
+>>>>>>> develop

@@ -4,115 +4,117 @@
 {% endblock %}
 
 {% block body %}
-	 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-	<div class="container py-5">
-	    <h2 class="text-center text-danger mb-4">Chiffres d'affaires</h2>
+    <div class="container py-5">
+        <h2 class="text-center text-danger mb-4">Chiffres d'affaires</h2>
 
-		<div class="row">
-		
-			<!-- Colonne gauche : Graphique CA + Transactions -->
-			<div class="col-md-8">
-				<div class="card shadow-sm p-4 mb-4">
-					<h4 class="mb-3">Chiffre d'affaires</h4>
-					<canvas id="revenuChart"></canvas>
-				</div>
+        <div class="row">
 
-				<div class="card shadow-sm p-4">
-					<h4 class="mb-3">Dernières transactions</h4>
-					<div class="table-responsive">
-						<table class="table table-striped">
-							<thead class="table-dark">
-								<tr>
-									<th>Client</th>
-									<th>Prestation</th>
-									<th>Prix (€)</th>
-									<th>Statut</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for transaction in transactions %}
-									<tr>
-										<td>{{ transaction.client }}</td>
-										<td>{{ transaction.prestation }}</td>
-										<td>{{ transaction.prix }}</td>
-										<td>
-											<span class="badge
-											{% if transaction.statut == 'Fait' %} bg-success
-											{% elseif transaction.statut == 'À venir' %} bg-warning
-											{% else %} bg-danger {% endif %}">
-												{{ transaction.statut }}
-											</span>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+            <!-- Colonne gauche : Graphique CA + Transactions -->
+            <div class="col-md-8">
+                <div class="card shadow-sm p-4 mb-4">
+                    <h4 class="mb-3">Chiffre d'affaires</h4>
+                    <canvas id="revenuChart"></canvas>
+                </div>
 
-			<!-- Colonne droite : Bénéfices + Nombre de clients -->
-			<div class="col-md-4">
-				<div class="card shadow-sm p-4 mb-4 text-center border-0 rounded-4">
-					<h6 class="text-muted fw-bold">
-						<i class="bi bi-wallet2"></i> Bénéfice
-					</h6>
-					<p class="fs-2 fw-bold {% if variationRevenu >= 0 %} text-success {% else %} text-danger {% endif %}">
-						{{ totalRevenu }} €
-					</p>
-					<span class="fs-5 {% if variationRevenu >= 0 %} text-success {% else %} text-danger {% endif %}">
+                <div class="card shadow-sm p-4">
+                    <h4 class="mb-3">Dernières transactions</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>Client</th>
+                                <th>Prestation</th>
+                                <th>Prix (€)</th>
+                                <th>Statut</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.client }}</td>
+                                    <td>{{ transaction.prestation }}</td>
+                                    <td>{{ transaction.prix }}</td>
+                                    <td>
+                                        <span class="badge
+                                        {% if transaction.statut == 0 %} bg-success
+                                        {% elseif transaction.statut == 1 %} bg-warning
+                                        {% else %} bg-danger {% endif %}">
+                                            {% if transaction.statut == 0 %} Fait
+                                            {% elseif transaction.statut == 1 %} À venir
+                                            {% else %} Annulé {% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne droite : Bénéfices + Nombre de clients -->
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4 mb-4 text-center border-0 rounded-4">
+                    <h6 class="text-muted fw-bold">
+                        <i class="bi bi-wallet2"></i> Bénéfice
+                    </h6>
+                    <p class="fs-2 fw-bold {% if variationRevenu >= 0 %} text-success {% else %} text-danger {% endif %}">
+                        {{ totalRevenu }} €
+                    </p>
+                    <span class="fs-5 {% if variationRevenu >= 0 %} text-success {% else %} text-danger {% endif %}">
 						<i class="bi {% if variationRevenu >= 0 %} bi-arrow-up-circle-fill {% else %} bi-arrow-down-circle-fill {% endif %}"></i>
 						{% if variationRevenu >= 0 %}+{% endif %}{{ variationRevenu }}% par rapport au mois dernier
 					</span>
-				</div>
+                </div>
 
-				<div class="card shadow-sm p-4 text-center border-0 rounded-4">
-					<h6 class="text-muted fw-bold">
-						<i class="bi bi-people-fill"></i> Nombre de clients
-					</h6>
-					<p class="fs-2 fw-bold {% if variationClients >= 0 %} text-success {% else %} text-danger {% endif %}">
-						{{ totalClients }}
-					</p>
-					<span class="fs-5 {% if variationClients >= 0 %} text-success {% else %} text-danger {% endif %}">
+                <div class="card shadow-sm p-4 text-center border-0 rounded-4">
+                    <h6 class="text-muted fw-bold">
+                        <i class="bi bi-people-fill"></i> Nombre de clients
+                    </h6>
+                    <p class="fs-2 fw-bold {% if variationClients >= 0 %} text-success {% else %} text-danger {% endif %}">
+                        {{ totalClients }}
+                    </p>
+                    <span class="fs-5 {% if variationClients >= 0 %} text-success {% else %} text-danger {% endif %}">
 						<i class="bi {% if variationClients >= 0 %} bi-arrow-up-circle-fill {% else %} bi-arrow-down-circle-fill {% endif %}"></i>
 						{% if variationClients >= 0 %}+{% endif %}{{ variationClients }}% par rapport au mois dernier
 					</span>
-				</div>
-			</div>
+                </div>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 
 
-	 <script>
-		
-		const ctx = document.getElementById('revenuChart').getContext('2d');
-		new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: {{ revenusLabels|json_encode|raw }},
-				datasets: [
-					{
-						label: 'Ce mois-ci',
-						data: {{ revenusValeurs|json_encode|raw }},
-						backgroundColor: '#007bff',
-						borderRadius: 10, // Arrondi en haut
-						barPercentage: 0.8, // Réduction largeur
-						categoryPercentage: 0.3 // Réduction espace entre groupes
-					},
-					{
-						label: 'Mois précédent',
-						data: {{ revenusMoisPrecedent|json_encode|raw }},
-						backgroundColor: '#333',
-						borderRadius: 10, // Arrondi en haut
-						barPercentage: 0.8,
-						categoryPercentage: 0.3
-					}
-				]
-			}
-		});
-	
-	</script>
+    <script>
+
+        const ctx = document.getElementById('revenuChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ revenusLabels|json_encode|raw }},
+                datasets: [
+                    {
+                        label: 'Ce mois-ci',
+                        data: {{ revenusValeurs|json_encode|raw }},
+                        backgroundColor: '#007bff',
+                        borderRadius: 10, // Arrondi en haut
+                        barPercentage: 0.8, // Réduction largeur
+                        categoryPercentage: 0.3 // Réduction espace entre groupes
+                    },
+                    {
+                        label: 'Mois précédent',
+                        data: {{ revenusMoisPrecedent|json_encode|raw }},
+                        backgroundColor: '#333',
+                        borderRadius: 10, // Arrondi en haut
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.3
+                    }
+                ]
+            }
+        });
+
+    </script>
 
 {% endblock %}
