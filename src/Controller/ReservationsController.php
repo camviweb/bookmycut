@@ -107,5 +107,14 @@ final class ReservationsController extends AbstractController
         return $this->json(['reservedSlots' => $reservedSlots]);
     }
 
+    #[Route('/mes-reservations', name: 'app_mes_reservations')]
+    public function myReservations(AppointmentRepository $appointmentRepository): Response
+    {
+        $reservations = $appointmentRepository->findBy(['user' => $this->getUser()], ['date' => 'DESC']);
+
+        return $this->render('reservations/mes_reservations.html.twig', [
+            'reservations' => $reservations,
+        ]);
+    }
 
 }
