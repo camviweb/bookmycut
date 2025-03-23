@@ -45,6 +45,7 @@
         .navbar-nav .vr {
             display: none;
         }
+
         .navbar-nav .hr {
             display: block;
             width: 40%;
@@ -100,9 +101,11 @@
                     <div class="vr mx-3"></div>
                     <hr class="hr">
 
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="{{ path('app_mes_reservations') }}">Mes réservations</a>
-                    </li>
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{ path('app_mes_reservations') }}">Mes réservations</a>
+                        </li>
+                    {% endif %}
 
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="{{ path('app_logout') }}">Déconnexion</a>

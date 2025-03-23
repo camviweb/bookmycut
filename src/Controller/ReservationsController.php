@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ReservationsController extends AbstractController
 {
@@ -108,6 +109,7 @@ final class ReservationsController extends AbstractController
     }
 
     #[Route('/mes-reservations', name: 'app_mes_reservations')]
+    #[IsGranted('ROLE_USER')]
     public function myReservations(AppointmentRepository $appointmentRepository): Response
     {
         $reservations = $appointmentRepository->findBy(['user' => $this->getUser()], ['date' => 'DESC']);
