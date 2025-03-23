@@ -50,13 +50,17 @@
                     <th>Description</th>
                     <th>Quantité</th>
                     <th>Prix unitaire (€)</th>
+                    <th>Quantité à acheter</th>
                     <th>Prix total (€)</th>
+                    <th>Acheter</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 {% for produit in produits %}
                     <tr class="align-middle">
+                     <form action="{{ path('app_admin_stock_add') }}" method="POST">
+
                         <td class="fw-semibold text-uppercase">{{ produit.type | default('N/A') }}</td>
                         <td class="text-secondary">{{ produit.brand | default('N/A') }}</td>
                         <td class="fst-italic">{{ produit.description | default('Aucune description') }}</td>
@@ -68,18 +72,39 @@
                         <td class="fw-bold text-end text-nowrap">
                             {{ produit.unitprice | number_format(2, ',', ' ') }} €
                         </td>
-                        <td class="fw-bold text-end text-nowrap">
-                            {{ (produit.unitprice * (30 - produit.quantity)) | number_format(2, ',', ' ') }} €
+                        <td class="text-center">
+                            <input type="number" name="selectedQuantity" id="quantity-{{ loop.index }}" min="0" max="{{ 30 - produit.quantity }}" 
+                            value="0" class="form-control" 
+                            oninput="updateTotal({{ loop.index }}, {{ produit.unitprice }})" required>
                         </td>
+                        <td class="fw-bold text-end text-nowrap" id="total-price-{{ loop.index }}">
+                        {{ 0 | number_format(2, ',', ' ') }} €
+                        </td>
+                        <td class="fw-bold text-end text-nowrap">
+                            <input type="hidden" name="productId" value="{{ produit.id }}">
+                            <button type="submit" class="btn btn-danger" id="acheter">Acheter</button>
+                        </td>
+                        </form>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
         
+        
     </div>
 
+<script>
+    function updateTotal(index, unitPrice) {
+        let quantityInput = document.getElementById("quantity-" + index);
+        let totalPriceCell = document.getElementById("total-price-" + index);
+        
+        let quantity = parseInt(quantityInput.value) || 0;;
+        let totalPrice = (unitPrice * quantity).toFixed(2).replace('.', ',');
 
+        totalPriceCell.textContent = totalPrice + " €";
+    }
+</script>
 
 
 {% endblock %}
