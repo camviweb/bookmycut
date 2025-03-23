@@ -6,6 +6,8 @@ use App\Repository\AppointmentRepository;
 use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Appointment;
 use App\Repository\UserRepository;
@@ -37,7 +39,7 @@ final class ReservationsController extends AbstractController
     }
 
     #[Route('/reservations/create', name: 'app_create_reservation', methods: ['POST'])]
-    public function createAppointment(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ServiceRepository $serviceRepository, SessionInterface $session, AppointmentRepository $appointmentRepository): RedirectResponse
+    public function createAppointment(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ServiceRepository $serviceRepository, SessionInterface $session, AppointmentRepository $appointmentRepository, MailerInterface $mailer): RedirectResponse
     {
         $date = $request->get('date');
         $horaire = $request->get('horaire');
@@ -47,7 +49,6 @@ final class ReservationsController extends AbstractController
         $service = $serviceRepository->find($prestationId);
         $user = $userRepository->find($userId);
 
-        // Convertir la date et l'horaire en un objet DateTime
         $dateTime = new \DateTime($date . ' ' . $horaire);
 
         $existingAppointment = $appointmentRepository->findOneBy(['date' => $dateTime]);
@@ -65,11 +66,25 @@ final class ReservationsController extends AbstractController
         $appointment->setStatus(0);
 
         $em->persist($appointment);
-
         $em->flush();
 
-        $session->getFlashBag()->add('success', 'Rendez-vous confirmé pour le ' . $dateTime->format('d/m/Y') . ' à ' . $dateTime->format('H:i'));
-//        $session->getFlashBag()->add('success', 'Rendez-vous confirmé pour le ' . $dateTime->format('l d F Y à H:i')); // ça se met en anglais...
+        $email = (new Email())
+            ->from('no-reply@bookmycut.com')
+            ->to($user->getEmail())
+            ->subject('Confirmation de votre rendez-vous')
+            ->html("
+            <h2>Confirmation de rendez-vous</h2>
+            <p>Bonjour {$user->getFirstName()},</p>
+            <p>Votre rendez-vous pour <strong>{$service->getName()}</strong> est confirmé.</p>
+            <p>Date : <strong>{$dateTime->format('d/m/Y')}</strong></p>
+            <p>Heure : <strong>{$dateTime->format('H:i')}</strong></p>
+            <p>Prix : <strong>{$service->getPrice()}€</strong></p>
+            <p>Merci de votre confiance !</p>
+        ");
+
+        $mailer->send($email);
+
+        $session->getFlashBag()->add('success', 'Rendez-vous confirmé pour le ' . $dateTime->format('d/m/Y') . ' à ' . $dateTime->format('H:i') . '. Un email de confirmation vous a été envoyé.');
         return $this->redirectToRoute('app_reservations');
     }
 

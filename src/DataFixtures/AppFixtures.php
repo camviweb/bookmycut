@@ -26,6 +26,12 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        // Fonction pour nettoyer les caractères non ASCII
+        function cleanString($str) {
+            // On remplace les caractères spéciaux par des lettres ASCII et on retire les symboles indésirables
+            return preg_replace('/[^a-zA-Z0-9.-]/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $str));
+        }
+
         // Création de services
         $services = [];
         $serviceData = [
@@ -74,15 +80,30 @@ class AppFixtures extends Fixture
             $products[] = $product;
         }
 
+        // Création de l'utilisateur (admin)
+        $admin = new User();
+        $admin
+            ->setFirstName('Admin')
+            ->setLastName('Admin')
+            ->setEmail('admin@bookmycut.fr')
+            ->setPhone('+33 6 12 34 56 78')
+            ->setRole('ROLE_ADMIN')
+            ->setPassword($this->passwordHasher->hashPassword($admin, 'mdp'));
+        $manager->persist($admin);
+
         // Création des utilisateurs (clients)
         $users = [];
         for ($i = 0; $i < 25; $i++) {  // On crée 25 utilisateurs
             $user = new User();
+            $firstName = $this->faker->firstName();
+            $lastName = $this->faker->lastName();
+            $email = strtolower(cleanString($firstName)) . '.' . strtolower(cleanString($lastName)) . '@mail.fr';
+
             $user
-                ->setFirstName($this->faker->firstName())
-                ->setLastName($this->faker->lastName())
-                ->setEmail(strtolower($user->getFirstName()) . '.' . strtolower($user->getLastName()) . '@mail.fr')
-                ->setPhone($this->faker->phoneNumber())
+                ->setFirstName($firstName)
+                ->setLastName($lastName)
+                ->setEmail($email)
+                ->setPhone('+33 6 ' . $this->faker->numerify('## ## ## ##'))
                 ->setRole('ROLE_USER')
                 ->setPassword($this->passwordHasher->hashPassword($user, 'mdp'));
             $manager->persist($user);
@@ -171,12 +192,16 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < count($testimonials); $i++) {
             $user = new User();
+            $firstName = $this->faker->firstName();
+            $lastName = $this->faker->lastName();
+            $email = strtolower(cleanString($firstName)) . '.' . strtolower(cleanString($lastName)) . '@mail.fr';
+
             $user
-                ->setFirstName($this->faker->firstName())
-                ->setLastName($this->faker->lastName())
-                ->setEmail(strtolower($user->getFirstName()) . '.' . strtolower($user->getLastName()) . '@mail.fr')
-                ->setPhone($this->faker->phoneNumber())
-                ->setRole($this->faker->randomElement(['ROLE_USER', 'ROLE_ADMIN']))
+                ->setFirstName($firstName)
+                ->setLastName($lastName)
+                ->setEmail($email)
+                ->setPhone('+33 6 ' . $this->faker->numerify('## ## ## ##'))
+                ->setRole('ROLE_USER')
                 ->setPassword($this->passwordHasher->hashPassword($user, 'mdp'));
 
             $manager->persist($user);
@@ -200,4 +225,5 @@ class AppFixtures extends Fixture
         // Sauvegarde des données
         $manager->flush();
     }
-}
+
+    }
