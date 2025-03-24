@@ -75,7 +75,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/stock', name: 'app_admin_stock_add', methods: ['POST'])]
-    public function addProducts(Request $request, EntityManagerInterface $em, ProductRepository $productRepository, SessionInterface $session, AppointmentRepository $appointmentRepository): RedirectResponse
+    public function addProducts(Request $request, EntityManagerInterface $em, ProductRepository $productRepository): RedirectResponse
     {
         $productId = $request->get('productId');
         $quantity = intval($request->get('selectedQuantity'));
@@ -83,14 +83,15 @@ class AdminController extends AbstractController
         $product = $productRepository->findOneBy(['id' => $productId]);
 
         if (!$product) {
-            throw $this->createNotFoundException('Produit non trouvé.');
+            $this->addFlash('danger', 'Produit non trouvé.');
+            return $this->redirectToRoute('app_admin_stock');
         }
 
         $product->setQuantity($product->getQuantity() + $quantity);
         $em->persist($product);
-        $em->flush();
+        $em->flush(); 
 
-        $this->addFlash('success', 'Stock mis à jour avec succès.');
+        $this->addFlash('success', 'Vous avez acheté le produit.');
 
         return $this->redirectToRoute('app_admin_stock');
     }

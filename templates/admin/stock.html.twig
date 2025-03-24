@@ -58,9 +58,8 @@
                 </thead>
                 <tbody>
                 {% for produit in produits %}
+                    <form action="{{ path('app_admin_stock_add') }}" method="POST">
                     <tr class="align-middle">
-                     <form action="{{ path('app_admin_stock_add') }}" method="POST">
-
                         <td class="fw-semibold text-uppercase">{{ produit.type | default('N/A') }}</td>
                         <td class="text-secondary">{{ produit.brand | default('N/A') }}</td>
                         <td class="fst-italic">{{ produit.description | default('Aucune description') }}</td>
@@ -84,14 +83,12 @@
                             <input type="hidden" name="productId" value="{{ produit.id }}">
                             <button type="submit" class="btn btn-danger" id="acheter">Acheter</button>
                         </td>
-                        </form>
                     </tr>
+                </form>
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-        
-        
+        </div> 
     </div>
 
 <script>
