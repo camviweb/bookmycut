@@ -8,6 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -71,6 +75,29 @@ class AdminController extends AbstractController
             'produits' => $produits,
         ]);
     }
+
+    #[Route('/stock', name: 'app_admin_stock_add', methods: ['POST'])]
+    public function addProducts(Request $request, EntityManagerInterface $em, ProductRepository $productRepository): RedirectResponse
+    {
+        $productId = $request->get('productId');
+        $quantity = intval($request->get('selectedQuantity'));
+
+        $product = $productRepository->findOneBy(['id' => $productId]);
+
+        if (!$product) {
+            $this->addFlash('danger', 'Produit non trouvé.');
+            return $this->redirectToRoute('app_admin_stock');
+        }
+
+        $product->setQuantity($product->getQuantity() + $quantity);
+        $em->persist($product);
+        $em->flush(); 
+
+        $this->addFlash('success', 'Vous avez acheté le produit.');
+
+        return $this->redirectToRoute('app_admin_stock');
+    }
+
 
     #[Route('/chiffres-affaires', name: 'app_admin_chiffres_affaires')]
     public function chiffresAffaires(AppointmentRepository  $appointmentRepository): Response
