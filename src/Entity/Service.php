@@ -30,7 +30,7 @@ class Service
     private ?int $duration = null;
 
     #[ORM\Column]
-    private ?int $photo = null;
+    private ?string $photo = null;
 
     public function getId(): ?int
     {

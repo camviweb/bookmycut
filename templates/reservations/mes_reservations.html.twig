@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Réservations{% endblock %}
+
+{% block body %}
+    <div class="container my-4">
+        <h1 class="text-center text-danger">Mes Réservations</h1>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Prestation</th>
+                <th>Prix</th>
+                <th>Statut</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.date|date('d/m/Y') }}</td>
+                    <td>{{ reservation.date|date('H:i') }}</td>
+                    <td>{{ reservation.service.name }}</td>
+                    <td>{{ reservation.price }}€</td>
+                    <td>
+                        {% if reservation.status == 0 %}
+                            En attente
+                        {% elseif reservation.status == 1 %}
+                            Confirmé
+                        {% elseif reservation.status == 2 %}
+                            Annulé
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucune réservation trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
