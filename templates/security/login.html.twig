@@ -5,15 +5,14 @@
 {% block stylesheets %}
     <style>
         body {
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            /*background: linear-gradient(135deg, #2c3e50, #4ca1af)*/;
         }
 
-        .full-page-container {
-            min-height: 100vh;
+        .container {
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding-bottom: 50px;
+            justify-content: center;
+            align-content: center;
         }
 
         .form-container {
@@ -25,13 +24,14 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
+            color: black;
         }
 
         .form-container h3, 
         .form-container label,
         .form-container p {
             font-weight: bold;
-            color: #fff;
+            
             text-align: center;
         }
 
@@ -45,11 +45,10 @@
             border: 1px solid #ccc;
             transition: all 0.3s ease-in-out;
             background: rgba(255, 255, 255, 0.3);
-            color: #fff;
         }
 
         .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: grey;
         }
 
         .form-control:focus {
@@ -73,7 +72,6 @@
         }
 
         .login-link {
-            color: #fff;
             font-weight: bold;
             text-decoration: none;
             transition: color 0.3s;
@@ -99,7 +97,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="full-page-container">
+    <div class="container my-5">
         <div class="form-container">
             <h3 class="mb-4">Se Connecter</h3>
 
