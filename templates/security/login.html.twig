@@ -3,56 +3,142 @@
 {% block title %}Connexion{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <style>
+        body {
+            /*background: linear-gradient(135deg, #2c3e50, #4ca1af)*/;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            color: black;
+        }
+
+        .form-container h3, 
+        .form-container label,
+        .form-container p {
+            font-weight: bold;
+            
+            text-align: center;
+        }
+
         .required-star {
             color: red;
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease-in-out;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: grey;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .login-link {
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .login-link:hover {
+            color: #dce775;
+            text-decoration: underline;
+        }
+
+        .auth-link {
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .auth-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
         }
     </style>
 {% endblock %}
 
 {% block body %}
+    <div class="container my-5">
+        <div class="form-container">
+            <h3 class="mb-4">Se Connecter</h3>
 
-    <div class="p-5 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
-        <h3 class="text-center mb-3">Se Connecter</h3>
+            {% if error %}
+                <div class="alert alert-danger text-center">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
 
-        {% if error %}
-            <div class="alert alert-danger text-center">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-            </div>
-        {% endif %}
+            <p class="text-center mb-3">Nouveau sur le site ?
+                <a href="{{ path('app_registration') }}" class="auth-link">S'inscrire</a>
+            </p>
 
-        <p class="text-center mb-3">Nouveau sur le site ?
-            <a href="{{ path('app_registration') }}" style="color:black">S'inscrire</a>
-        </p>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email
+                        <span class="required-star">*</span>
+                    </label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                           class="form-control" autocomplete="email" placeholder="Entrez votre email"
+                           required autofocus>
+                </div>
 
-        <form method="post">
-            <div class="mb-3">
-                <label for="inputEmail" class="form-label">Email
-                    <span class="required-star">*</span>
-                </label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
-                       class="form-control" autocomplete="email" placeholder="Entrez votre email"
-                       style="border-color: black; border-width: 2px" required autofocus>
-            </div>
-            <div class="mb-3">
-                <label for="inputPassword" class="form-label">Mot de passe
-                    <span class="required-star">*</span>
-                </label>
-                <input type="password" name="password" id="inputPassword"
-                       class="form-control" autocomplete="current-password"
-                       placeholder="Entrez votre mot de passe"
-                       style="border-color: black; border-width: 2px" required>
-            </div>
+                <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Mot de passe
+                        <span class="required-star">*</span>
+                    </label>
+                    <input type="password" name="password" id="inputPassword"
+                           class="form-control" autocomplete="current-password"
+                           placeholder="Entrez votre mot de passe"
+                           required>
+                </div>
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <div class="text-center">
-                <button class="btn btn-danger btn-lg" type="submit">
-                    Connexion
-                </button>
-            </div>
-        </form>
-
+                <div class="text-center">
+                    <button class="btn btn-danger btn-lg" type="submit">
+                        Connexion
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

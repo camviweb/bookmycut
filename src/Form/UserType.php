@@ -22,28 +22,24 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre nom',
-                    'style' => 'border-color: black; border-width: 2px',
                 ],
             ])
             ->add('firstname', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre prénom',
-                    'style' => 'border-color: black; border-width: 2px',
                 ],
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre email',
-                    'style' => 'border-color: black; border-width: 2px',
                 ],
             ])
             ->add('phone', TelType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez votre numéro',
-                    'style' => 'border-color: black; border-width: 2px',
                 ]
             ])
             ->add('password', RepeatedType::class, [
@@ -52,14 +48,12 @@ class UserType extends AbstractType
                     'attr' => [
                         'class' => 'form-control',
                         'placeholder' => 'Créez un mot de passe',
-                        'style' => 'border-color: black; border-width: 2px',
                     ],
                 ],
                 'second_options' => [
                     'attr' => [
                         'class' => 'form-control',
                         'placeholder' => 'Confirmez votre mot de passe',
-                        'style' => 'border-color: black; border-width: 2px',
                     ],
                 ],
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
