@@ -76,7 +76,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/stock', name: 'app_admin_stock_add', methods: ['POST'])]
+    #[Route('/stock/add', name: 'app_admin_stock_add', methods: ['POST'])]
     public function addProducts(Request $request, EntityManagerInterface $em, ProductRepository $productRepository): RedirectResponse
     {
         $productId = $request->get('productId');
