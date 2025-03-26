@@ -49,7 +49,7 @@ class StockController extends AbstractController
         $em->persist($product);
         $em->flush(); 
 
-        $this->addFlash('success', 'Vous avez acheté le produit.');
+        $this->addFlash('success', 'Vous avez acheté ' . $quantity . ' fois le produit "' . $product->getType() . '".');
 
         return $this->redirectToRoute('app_admin_stock');
     }

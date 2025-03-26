@@ -114,7 +114,7 @@ final class ReservationsController extends AbstractController
     {
         $reservations = $appointmentRepository->findBy(['user' => $this->getUser()], ['date' => 'DESC']);
 
-        return $this->render('reservations/mes_reservations.html.twig', [
+        return $this->render('reservations/my_reservations.html.twig', [
             'reservations' => $reservations,
         ]);
     }

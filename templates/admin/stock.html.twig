@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="container my-5">
-        <h2 class="text-center text-danger mb-4">Stock des produits</h2>
+        <h2 class="text-center text-danger mb-4">Gestion du Stock</h2>
 
         <div class="table-responsive mt-4">
             <table class="table table-striped table-bordered shadow-sm table-hover">
@@ -14,23 +14,46 @@
                     <th>Produit</th>
                     <th>Marque</th>
                     <th>Description</th>
-                    <th>Quantité</th>
+                    <th>Stock actuel</th>
                     <th>Prix unitaire (€)</th>
+                    <th>Commander</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for produit in produits %}
+                    {% set restant = 30 - produit.quantity %}
                     <tr class="align-middle">
                         <td class="fw-semibold text-uppercase">{{ produit.type | default('N/A') }}</td>
                         <td class="text-secondary">{{ produit.brand | default('N/A') }}</td>
                         <td class="fst-italic">{{ produit.description | default('Aucune description') }}</td>
                         <td class="text-center">
-                            <span class="badge bg-{% if produit.quantity > 5 %}success{% else %}danger{% endif %}">
-                                {{ produit.quantity }}
-                            </span>
+                                <span class="badge bg-{% if produit.quantity > 5 %}success{% else %}danger{% endif %}">
+                                    {{ produit.quantity }}
+                                </span>
+                            <div class="text-muted small">
+                                {% if restant > 0 %}{{ restant }} restants{% else %}Stock plein{% endif %}
+                            </div>
                         </td>
                         <td class="fw-bold text-end text-nowrap">
                             {{ produit.unitprice | number_format(2, ',', ' ') }} €
+                        </td>
+                        <td class="text-center">
+                            {% if restant > 0 %}
+                                <form action="{{ path('app_admin_stock_add') }}" method="POST" class="d-flex">
+                                    <input type="number" name="selectedQuantity" id="quantity-{{ loop.index }}"
+                                           min="1" max="{{ restant }}" value="1"
+                                           class="form-control me-2"
+                                           oninput="updateTotal({{ loop.index }}, {{ produit.unitprice }})" required>
+
+                                    <input type="hidden" name="productId" value="{{ produit.id }}">
+                                    <button type="submit" class="btn btn-danger">Acheter</button>
+                                </form>
+                                <div class="text-end mt-1 fw-bold text-nowrap" id="total-price-{{ loop.index }}">
+                                    {{ produit.unitprice | number_format(2, ',', ' ') }} €
+                                </div>
+                            {% else %}
+                                <span class="text-success">Stock suffisant (30 max)</span>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -39,69 +62,16 @@
         </div>
     </div>
 
-    <div class="container my-5">
-        <h2 class="text-center text-danger mb-4">Produits à commander</h2>
-        <div class="table-responsive mt-4">
-            <table class="table table-striped table-bordered shadow-sm table-hover">
-                <thead class="table-dark text-center">
-                <tr>
-                    <th>Produit</th>
-                    <th>Marque</th>
-                    <th>Description</th>
-                    <th>Quantité</th>
-                    <th>Prix unitaire (€)</th>
-                    <th>Quantité à acheter</th>
-                    <th>Prix total (€)</th>
-                    <th>Acheter</th>
+    <script>
+        function updateTotal(index, unitPrice) {
+            let quantityInput = document.getElementById("quantity-" + index);
+            let totalPriceCell = document.getElementById("total-price-" + index);
 
-                </tr>
-                </thead>
-                <tbody>
-                {% for produit in produits %}
-                    <form action="{{ path('app_admin_stock_add') }}" method="POST">
-                    <tr class="align-middle">
-                        <td class="fw-semibold text-uppercase">{{ produit.type | default('N/A') }}</td>
-                        <td class="text-secondary">{{ produit.brand | default('N/A') }}</td>
-                        <td class="fst-italic">{{ produit.description | default('Aucune description') }}</td>
-                        <td class="text-center">
-                            <span class="badge bg-{% if (30 - produit.quantity) < 25 %}success{% else %}danger{% endif %}">
-                                {{  30 - produit.quantity }}
-                            </span>
-                        </td>
-                        <td class="fw-bold text-end text-nowrap">
-                            {{ produit.unitprice | number_format(2, ',', ' ') }} €
-                        </td>
-                        <td class="text-center">
-                            <input type="number" name="selectedQuantity" id="quantity-{{ loop.index }}" min="0" max="{{ 30 - produit.quantity }}" 
-                            value="0" class="form-control" 
-                            oninput="updateTotal({{ loop.index }}, {{ produit.unitprice }})" required>
-                        </td>
-                        <td class="fw-bold text-end text-nowrap" id="total-price-{{ loop.index }}">
-                        {{ 0 | number_format(2, ',', ' ') }} €
-                        </td>
-                        <td class="fw-bold text-end text-nowrap">
-                            <input type="hidden" name="productId" value="{{ produit.id }}">
-                            <button type="submit" class="btn btn-danger" id="acheter">Acheter</button>
-                        </td>
-                    </tr>
-                </form>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div> 
-    </div>
+            let quantity = parseInt(quantityInput.value) || 0;
+            let totalPrice = (unitPrice * quantity).toFixed(2).replace('.', ',');
 
-<script>
-    function updateTotal(index, unitPrice) {
-        let quantityInput = document.getElementById("quantity-" + index);
-        let totalPriceCell = document.getElementById("total-price-" + index);
-        
-        let quantity = parseInt(quantityInput.value) || 0;;
-        let totalPrice = (unitPrice * quantity).toFixed(2).replace('.', ',');
-
-        totalPriceCell.textContent = totalPrice + " €";
-    }
-</script>
-
+            totalPriceCell.textContent = totalPrice + " €";
+        }
+    </script>
 
 {% endblock %}
