@@ -38,7 +38,6 @@
         <form action="{{ path('app_create_reservation') }}" method="POST" id="reservationForm">
 
             <h1 class="text-danger">1. Choisir une prestation</h1>
-
             <div class="mb-3">
                 <select class="form-select" id="categorySelect" required>
                     <option disabled selected>Choisissez un genre</option>
@@ -46,24 +45,22 @@
                     <option value="femmes">Femmes</option>
                 </select>
             </div>
-
             <div class="mb-3">
-                <select class="form-select" id="prestationSelect" required></select>
+                <select class="form-select" id="prestationSelect" name="prestation" required></select>
             </div>
 
             <h1 class="text-danger">2. Choisir une date et une heure</h1>
-
             <div class="row justify-content-center">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="datepicker" placeholder="Choisissez une date" required>
+                    <input type="text" class="form-control" id="datepicker" name="date"
+                           placeholder="Choisissez une date" required>
                 </div>
-
                 <div class="col-md-8">
                     <h2 class="text-center mb-3">Créneaux disponibles</h2>
                     <div class="row">
                         {% for horaire in horaires %}
                             <div class="col-3 mb-2 text-center">
-                                <input class="slot-checkbox" type="checkbox" id="slot-{{ loop.index }}"
+                                <input class="slot-checkbox" type="radio" id="slot-{{ loop.index }}" name="horaire"
                                        value="{{ horaire }}" disabled>
                                 <label class="btn btn-outline-secondary slot-btn disabled" for="slot-{{ loop.index }}">
                                     {{ horaire }}
@@ -74,20 +71,51 @@
                 </div>
             </div>
 
+            <h1 class="text-danger mt-4">3. Confirmer votre réservation</h1>
+            {% if app.user %}
+                <input type="hidden" name="userId" value="{{ app.user.id }}">
+            {% else %}
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                    <span class="mx-2 text-muted">Vous avez déjà un compte ?</span>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-danger">Connectez-vous</a>
+                    <span class="mx-2 text-muted">ou sinon :</span>
+                </div>
+
+                <div class="container mt-3 p-3 border border-danger rounded bg-light">
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Votre adresse e-mail</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               placeholder="Entrez votre email"
+                               required>
+                    </div>
+
+                    <div class="mb-3 d-flex align-items-left gap-3">
+                        <div>
+                            <label for="lastname" class="form-label">Votre nom</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname"
+                                   placeholder="Entrez votre nom" required>
+                        </div>
+                        <div>
+                            <label for="firstname" class="form-label">Votre prénom</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                   placeholder="Entrez votre prénom" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Votre numéro de téléphone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone"
+                               placeholder="Entrez votre numéro de téléphone" required>
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="d-flex justify-content-center mt-4">
-                {% if app.user %}
-                    <input type="hidden" name="date" id="selectedDate">
-                <input type="hidden" name="prestation" id="selectedPrestation">
-                    <input type="hidden" name="userId" value="{{ app.user.id }}">
-                <input type="hidden" name="horaire" id="selectedHoraire">
-                <button type="submit" class="btn btn-danger btn-lg" id="confirmButton" disabled>
-                    Confirmer votre rendez-vous
+                <button type="submit" class="btn btn-danger btn-lg" id="confirmButton" disabled>Confirmer votre
+                    rendez-vous
                 </button>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="btn btn-danger btn-lg">Connectez-vous pour réserver</a>
-                {% endif %}
             </div>
         </form>
-
     </div>
 {% endblock %}

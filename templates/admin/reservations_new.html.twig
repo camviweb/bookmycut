@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un rendez-vous{% endblock %}
+
+{% block body %}
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        #newClientFields {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-check-input {
+            display: none;
+        }
+
+        .form-check-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #c82333;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-check-input:checked + .form-check-label {
+            background-color: #630811;
+        }
+    </style>
+
+    <div class="container mt-4">
+        <div class="form-container">
+            <h2 class="mb-4 text-center">Créer un rendez-vous</h2>
+
+            {{ form_start(form) }}
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="newClientCheck">
+                <label class="form-check-label" for="newClientCheck">Nouveau client</label>
+            </div>
+
+            <div class="mb-3" id="appointment_user">
+                {{ form_label(form.user, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.user, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div id="newClientFields" class="hidden">
+                <div class="mb-3">
+                    {{ form_label(form.newUserFullName, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.newUserFullName, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.newUserEmail, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.newUserEmail, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.newUserPhone, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.newUserPhone, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mb-3">
+                {{ form_label(form.service, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.service, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <button type="submit" class="btn btn-danger w-100">Enregistrer</button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const newClientCheck = document.getElementById("newClientCheck");
+            const newClientFields = document.getElementById("newClientFields");
+            const existingUserField = document.getElementById("appointment_user");
+
+            newClientCheck.addEventListener("change", function () {
+                if (newClientCheck.checked) {
+                    newClientFields.classList.remove("hidden");
+                    existingUserField.classList.add("hidden");
+                } else {
+                    newClientFields.classList.add("hidden");
+                    existingUserField.classList.remove("hidden");
+                }
+            });
+        });
+    </script>
+{% endblock %}
