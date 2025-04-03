@@ -1,7 +1,8 @@
 <?php
-
+// src/Controller/Admin/AdminController.php
 namespace App\Controller\Admin;
 
+use App\Service\Admin\AdminDashboardService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,32 +12,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
+    private $adminDashboardService;
+
+    // Injection du service dans le contrôleur
+    public function __construct(AdminDashboardService $adminDashboardService)
+    {
+        $this->adminDashboardService = $adminDashboardService;
+    }
+
     #[Route('/', name: 'app_admin')]
     public function index(): Response
     {
-        $cards = [
-            [
-                'title' => 'Gestion des Stocks',
-                'description' => 'Consultez et mettez à jour les stocks de produits.',
-                'link' => $this->generateUrl('app_admin_stock'),
-                'button_text' => 'Voir les stocks',
-                'icon' => 'bi-box-seam'
-            ],
-            [
-                'title' => 'Réservations',
-                'description' => 'Gérez les rendez-vous des clients.',
-                'link' => $this->generateUrl('app_admin_reservations'),
-                'button_text' => 'Voir les réservations',
-                'icon' => 'bi-calendar3'
-            ],
-            [
-                'title' => 'Chiffres d\'affaires',
-                'description' => 'Consultez les chiffres d\'affaires et les statistiques.',
-                'link' => $this->generateUrl('app_admin_turnover'),
-                'button_text' => 'Voir les chiffres',
-                'icon' => 'bi-currency-dollar'
-            ]
-        ];
+        // Appeler la méthode du service pour récupérer les cartes
+        $cards = $this->adminDashboardService->getDashboardCards();
 
         return $this->render('admin/index.html.twig', [
             'cards' => $cards,
