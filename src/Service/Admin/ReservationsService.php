@@ -10,6 +10,7 @@ use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -62,7 +63,7 @@ class ReservationsService
         return $events;
     }
     
-    public function createAppointment(Request $request):?\Symfony\Component\Form\FormInterface
+    public function createAppointment(Request $request, SessionInterface $session):?\Symfony\Component\Form\FormInterface
     {
         $appointment = new Appointment();
         $appointment->setStatus(0);
@@ -94,12 +95,16 @@ class ReservationsService
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
+                $session->getFlashBag()->add('info', "Un nouveau client a été créé : {$user->getFirstName()} {$user->getLastName()}.");
+
                 // Associer l'utilisateur au rendez-vous
                 $appointment->setUser($user);
             }
 
             $this->entityManager->persist($appointment);
             $this->entityManager->flush();
+
+            $session->getFlashBag()->add('success', 'Le rendez-vous a été créé avec succès pour ' . $appointment->getUser()->getFirstName() . ' ' . $appointment->getUser()->getLastName() . ' le ' . $appointment->getDate()->format('d/m/Y') . ' à ' . $appointment->getDate()->format('H:i') . '.');
 
             return $form; // Indique que la création est terminée
         }

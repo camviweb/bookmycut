@@ -11,6 +11,7 @@ use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -43,14 +44,13 @@ class ReservationsController extends AbstractController
 
     }
     #[Route('/new', name: 'app_admin_reservations_new')]
-    public function new(Request $request): Response
+    public function new(Request $request, SessionInterface $session): Response
     {
         // Créer le formulaire
-        $form = $this->reservationsService->createAppointment($request);
+        $form = $this->reservationsService->createAppointment($request, $session);
 
         // Si le formulaire est validé, rediriger
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Le rendez-vous a été créé avec succès.');
             return $this->redirectToRoute('app_admin_reservations'); // Redirige vers la liste des réservations
         }
 
