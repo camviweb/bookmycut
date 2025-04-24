@@ -14,10 +14,10 @@
 {% block body %}
 
     <div class="p-5 mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;">
-        <h3 class="text-center mb-3">Se Connecter</h3>
+        <h3 class="text-center mb-3" id="loginTitle">Se Connecter</h3>
 
         {% if error %}
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger text-center" role="alert" aria-live="assertive">
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
         {% endif %}
@@ -26,14 +26,15 @@
             <a href="{{ path('app_registration') }}" style="color:black">S'inscrire</a>
         </p>
 
-        <form method="post">
+        <form method="post" aria-labelledby="loginTitle">
             <div class="mb-3">
                 <label for="inputEmail" class="form-label">Email
                     <span class="required-star">*</span>
                 </label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
                        class="form-control" autocomplete="email" placeholder="Entrez votre email"
-                       style="border-color: black; border-width: 2px" required autofocus>
+                       style="border-color: black; border-width: 2px" required aria-describedby="emailHelp" aria-required="true">
+                <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email avec quelqu'un d'autre.</small>
             </div>
             <div class="mb-3">
                 <label for="inputPassword" class="form-label">Mot de passe
@@ -42,7 +43,7 @@
                 <input type="password" name="password" id="inputPassword"
                        class="form-control" autocomplete="current-password"
                        placeholder="Entrez votre mot de passe"
-                       style="border-color: black; border-width: 2px" required>
+                       style="border-color: black; border-width: 2px" required aria-required="true">
             </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

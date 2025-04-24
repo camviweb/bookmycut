@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Admin - Chiffres d'affaires
-{% endblock %}
+{% block title %}Admin - Chiffres d'affaires{% endblock %}
 
 {% block body %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -15,39 +14,42 @@
             <div class="col-md-8">
                 <div class="card shadow-sm p-4 mb-4">
                     <h4 class="mb-3">Chiffre d'affaires</h4>
-                    <canvas id="revenuChart"></canvas>
+                    <canvas id="revenuChart" aria-label="Graphique du chiffre d'affaires" role="img"></canvas>
                 </div>
 
                 <div class="card shadow-sm p-4">
                     <h4 class="mb-3">Dernières transactions</h4>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" aria-labelledby="transaction-table">
                             <thead class="table-dark">
-                            <tr>
-                                <th>Client</th>
-                                <th>Prestation</th>
-                                <th>Prix (€)</th>
-                                <th>Statut</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Prestation</th>
+                                    <th scope="col">Prix (€)</th>
+                                    <th scope="col">Statut</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {% for transaction in transactions %}
-                                <tr>
-                                    <td>{{ transaction.client }}</td>
-                                    <td>{{ transaction.prestation }}</td>
-                                    <td>{{ transaction.prix }}</td>
-                                    <td>
-                                        <span class="badge
-                                        {% if transaction.statut == 0 %} bg-success
-                                        {% elseif transaction.statut == 1 %} bg-warning
-                                        {% else %} bg-danger {% endif %}">
-                                            {% if transaction.statut == 0 %} Fait
-                                            {% elseif transaction.statut == 1 %} À venir
-                                            {% else %} Annulé {% endif %}
-                                        </span>
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                                {% for transaction in transactions %}
+                                    <tr>
+                                        <td>{{ transaction.client }}</td>
+                                        <td>{{ transaction.prestation }}</td>
+                                        <td>{{ transaction.prix }}</td>
+                                        <td>
+                                            <span class="badge 
+                                                {% if transaction.statut == 0 %} bg-success
+                                                {% elseif transaction.statut == 1 %} bg-warning
+                                                {% else %} bg-danger {% endif %}" 
+                                                aria-label="{% if transaction.statut == 0 %} Fait
+                                                            {% elseif transaction.statut == 1 %} À venir
+                                                            {% else %} Annulé {% endif %}">
+                                                {% if transaction.statut == 0 %} Fait
+                                                {% elseif transaction.statut == 1 %} À venir
+                                                {% else %} Annulé {% endif %}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -58,37 +60,35 @@
             <div class="col-md-4">
                 <div class="card shadow-sm p-4 mb-4 text-center border-0 rounded-4">
                     <h6 class="text-muted fw-bold">
-                        <i class="bi bi-wallet2"></i> Bénéfice
+                        <i class="bi bi-wallet2" aria-hidden="true"></i> Bénéfice
                     </h6>
                     <p class="fs-2 fw-bold {% if variationRevenu >= 0 %} text-success {% else %} text-danger {% endif %}">
                         {{ totalRevenu }} €
                     </p>
                     <span class="fs-5 {% if variationRevenu >= 0 %} text-success {% else %} text-danger {% endif %}">
-						<i class="bi {% if variationRevenu >= 0 %} bi-arrow-up-circle-fill {% else %} bi-arrow-down-circle-fill {% endif %}"></i>
-						{% if variationRevenu >= 0 %}+{% endif %}{{ variationRevenu }}% par rapport au mois dernier
-					</span>
+                        <i class="bi {% if variationRevenu >= 0 %} bi-arrow-up-circle-fill {% else %} bi-arrow-down-circle-fill {% endif %}" aria-hidden="true"></i>
+                        {% if variationRevenu >= 0 %}+{% endif %}{{ variationRevenu }}% par rapport au mois dernier
+                    </span>
                 </div>
 
                 <div class="card shadow-sm p-4 text-center border-0 rounded-4">
                     <h6 class="text-muted fw-bold">
-                        <i class="bi bi-people-fill"></i> Nombre de clients
+                        <i class="bi bi-people-fill" aria-hidden="true"></i> Nombre de clients
                     </h6>
                     <p class="fs-2 fw-bold {% if variationClients >= 0 %} text-success {% else %} text-danger {% endif %}">
                         {{ totalClients }}
                     </p>
                     <span class="fs-5 {% if variationClients >= 0 %} text-success {% else %} text-danger {% endif %}">
-						<i class="bi {% if variationClients >= 0 %} bi-arrow-up-circle-fill {% else %} bi-arrow-down-circle-fill {% endif %}"></i>
-						{% if variationClients >= 0 %}+{% endif %}{{ variationClients }}% par rapport au mois dernier
-					</span>
+                        <i class="bi {% if variationClients >= 0 %} bi-arrow-up-circle-fill {% else %} bi-arrow-down-circle-fill {% endif %}" aria-hidden="true"></i>
+                        {% if variationClients >= 0 %}+{% endif %}{{ variationClients }}% par rapport au mois dernier
+                    </span>
                 </div>
             </div>
 
         </div>
     </div>
 
-
     <script>
-
         const ctx = document.getElementById('revenuChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
@@ -114,7 +114,6 @@
                 ]
             }
         });
-
     </script>
 
 {% endblock %}

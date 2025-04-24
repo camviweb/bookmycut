@@ -4,40 +4,40 @@
 
 {% block body %}
     <div class="container my-4">
-        <h1 class="text-center text-danger">Mes Réservations</h1>
+        <h1 class="text-center text-danger" id="pageTitle">Mes Réservations</h1>
 
-        <table class="table table-striped">
+        <table class="table table-striped" aria-labelledby="pageTitle">
             <thead>
-            <tr>
-                <th>Date</th>
-                <th>Heure</th>
-                <th>Prestation</th>
-                <th>Prix</th>
-                <th>Statut</th>
-            </tr>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Heure</th>
+                    <th scope="col">Prestation</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Statut</th>
+                </tr>
             </thead>
             <tbody>
-            {% for reservation in reservations %}
-                <tr>
-                    <td>{{ reservation.date|date('d/m/Y') }}</td>
-                    <td>{{ reservation.date|date('H:i') }}</td>
-                    <td>{{ reservation.service.name }}</td>
-                    <td>{{ reservation.price }}€</td>
-                    <td>
-                        {% if reservation.status == 0 %}
-                            En attente
-                        {% elseif reservation.status == 1 %}
-                            Confirmé
-                        {% elseif reservation.status == 2 %}
-                            Annulé
-                        {% endif %}
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5" class="text-center">Aucune réservation trouvée</td>
-                </tr>
-            {% endfor %}
+                {% for reservation in reservations %}
+                    <tr>
+                        <td scope="row">{{ reservation.date|date('d/m/Y') }}</td>
+                        <td>{{ reservation.date|date('H:i') }}</td>
+                        <td>{{ reservation.service.name }}</td>
+                        <td>{{ reservation.price }}€</td>
+                        <td>
+                            {% if reservation.status == 0 %}
+                                <span class="text-warning" aria-label="En attente">En attente</span>
+                            {% elseif reservation.status == 1 %}
+                                <span class="text-success" aria-label="Confirmé">Confirmé</span>
+                            {% elseif reservation.status == 2 %}
+                                <span class="text-danger" aria-label="Annulé">Annulé</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center" aria-live="polite">Aucune réservation trouvée</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

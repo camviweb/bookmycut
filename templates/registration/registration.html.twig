@@ -6,6 +6,7 @@
     <style>
         .required-star {
             color: red;
+            font-weight: bold;
         }
     </style>
 {% endblock %}
@@ -15,7 +16,7 @@
         <h3 class="text-center mb-3">Créer un compte</h3>
 
         {% if error %}
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert" aria-live="assertive">
                 {{ error|raw }}  <!-- Affiche les erreurs globales -->
             </div>
         {% endif %}
@@ -28,34 +29,34 @@
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="lastname">Nom <span class="required-star">*</span></label>
-                {{ form_widget(form.lastname) }}
+                <label for="lastname" id="lastname-label">Nom <span class="required-star" aria-hidden="true">*</span></label>
+                {{ form_widget(form.lastname, {'attr': {'aria-required': 'true', 'aria-labelledby': 'lastname-label'}}) }}
             </div>
             <div class="col-md-6 mb-3">
-                <label for="firstname">Prénom <span class="required-star">*</span></label>
-                {{ form_widget(form.firstname) }}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="email">Email <span class="required-star">*</span></label>
-                {{ form_widget(form.email) }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="phone">Numéro de téléphone <span class="required-star">*</span></label>
-                {{ form_widget(form.phone) }}
+                <label for="firstname" id="firstname-label">Prénom <span class="required-star" aria-hidden="true">*</span></label>
+                {{ form_widget(form.firstname, {'attr': {'aria-required': 'true', 'aria-labelledby': 'firstname-label'}}) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="password.first">Mot de passe <span class="required-star">*</span></label>
-                {{ form_widget(form.password.first) }}
+                <label for="email" id="email-label">Email <span class="required-star" aria-hidden="true">*</span></label>
+                {{ form_widget(form.email, {'attr': {'aria-required': 'true', 'aria-labelledby': 'email-label'}}) }}
             </div>
             <div class="col-md-6 mb-3">
-                <label for="password.second">Confirmer le mot de passe <span class="required-star">*</span></label>
-                {{ form_widget(form.password.second) }}
+                <label for="phone" id="phone-label">Numéro de téléphone <span class="required-star" aria-hidden="true">*</span></label>
+                {{ form_widget(form.phone, {'attr': {'aria-required': 'true', 'aria-labelledby': 'phone-label'}}) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="password.first" id="password-first-label">Mot de passe <span class="required-star" aria-hidden="true">*</span></label>
+                {{ form_widget(form.password.first, {'attr': {'aria-required': 'true', 'aria-labelledby': 'password-first-label'}}) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="password.second" id="password-second-label">Confirmer le mot de passe <span class="required-star" aria-hidden="true">*</span></label>
+                {{ form_widget(form.password.second, {'attr': {'aria-required': 'true', 'aria-labelledby': 'password-second-label'}}) }}
             </div>
         </div>
 

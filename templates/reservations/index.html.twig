@@ -35,33 +35,35 @@
     </style>
 
     <div class="container my-4">
-        <form action="{{ path('app_create_reservation') }}" method="POST" id="reservationForm">
+        <form action="{{ path('app_create_reservation') }}" method="POST" id="reservationForm" aria-labelledby="formTitle">
 
-            <h1 class="text-danger">1. Choisir une prestation</h1>
+            <h1 id="formTitle" class="text-danger">1. Choisir une prestation</h1>
             <div class="mb-3">
-                <select class="form-select" id="categorySelect" required>
+                <label for="categorySelect" class="form-label">Choisissez un genre</label>
+                <select class="form-select" id="categorySelect" required aria-required="true" aria-labelledby="categorySelect">
                     <option disabled selected>Choisissez un genre</option>
                     <option value="hommes">Hommes</option>
                     <option value="femmes">Femmes</option>
                 </select>
             </div>
             <div class="mb-3">
-                <select class="form-select" id="prestationSelect" name="prestation" required></select>
+                <label for="prestationSelect" class="form-label">Prestation</label>
+                <select class="form-select" id="prestationSelect" name="prestation" required aria-required="true" aria-labelledby="prestationSelect"></select>
             </div>
 
             <h1 class="text-danger">2. Choisir une date et une heure</h1>
             <div class="row justify-content-center">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="datepicker" name="date"
-                           placeholder="Choisissez une date" required>
+                    <label for="datepicker" class="form-label">Sélectionnez une date</label>
+                    <input type="text" class="form-control" id="datepicker" name="date" placeholder="Choisissez une date" required aria-required="true" aria-describedby="datepickerHelp">
+                    <small id="datepickerHelp" class="form-text text-muted">Veuillez choisir une date pour votre rendez-vous.</small>
                 </div>
                 <div class="col-md-8">
                     <h2 class="text-center mb-3">Créneaux disponibles</h2>
                     <div class="row">
                         {% for horaire in horaires %}
                             <div class="col-3 mb-2 text-center">
-                                <input class="slot-checkbox" type="radio" id="slot-{{ loop.index }}" name="horaire"
-                                       value="{{ horaire }}" disabled>
+                                <input class="slot-checkbox" type="radio" id="slot-{{ loop.index }}" name="horaire" value="{{ horaire }}" disabled aria-disabled="true">
                                 <label class="btn btn-outline-secondary slot-btn disabled" for="slot-{{ loop.index }}">
                                     {{ horaire }}
                                 </label>
@@ -77,7 +79,7 @@
             {% else %}
                 <div class="d-flex justify-content-center align-items-center mt-3">
                     <span class="mx-2 text-muted">Vous avez déjà un compte ?</span>
-                    <a href="{{ path('app_login') }}" class="btn btn-outline-danger">Connectez-vous</a>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-danger" aria-label="Se connecter">Connectez-vous</a>
                     <span class="mx-2 text-muted">ou sinon :</span>
                 </div>
 
@@ -85,36 +87,29 @@
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Votre adresse e-mail</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                               placeholder="Entrez votre email"
-                               required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email" required aria-required="true" aria-labelledby="email">
                     </div>
 
                     <div class="mb-3 d-flex align-items-left gap-3">
                         <div>
                             <label for="lastname" class="form-label">Votre nom</label>
-                            <input type="text" class="form-control" id="lastname" name="lastname"
-                                   placeholder="Entrez votre nom" required>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Entrez votre nom" required aria-required="true" aria-labelledby="lastname">
                         </div>
                         <div>
                             <label for="firstname" class="form-label">Votre prénom</label>
-                            <input type="text" class="form-control" id="firstname" name="firstname"
-                                   placeholder="Entrez votre prénom" required>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Entrez votre prénom" required aria-required="true" aria-labelledby="firstname">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">Votre numéro de téléphone</label>
-                        <input type="tel" class="form-control" id="phone" name="phone"
-                               placeholder="Entrez votre numéro de téléphone" required>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Entrez votre numéro de téléphone" required aria-required="true" aria-labelledby="phone">
                     </div>
                 </div>
             {% endif %}
 
             <div class="d-flex justify-content-center mt-4">
-                <button type="submit" class="btn btn-danger btn-lg" id="confirmButton" disabled>Confirmer votre
-                    rendez-vous
-                </button>
+                <button type="submit" class="btn btn-danger btn-lg" id="confirmButton" disabled aria-disabled="true" aria-label="Confirmer votre rendez-vous">Confirmer votre rendez-vous</button>
             </div>
         </form>
     </div>
