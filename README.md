@@ -1,7 +1,66 @@
 # BookMyCut
 
 ### Choix du projet
-**BookMyCut** est une application web développée avec Symfony 7 et PHP 8.3, utilisant Docker pour l'environnement de développement. Elle s'adresse aux salons de coiffure désirant gérer leurs rendez-vous et leur stock de produits simplement. 
+**BookMyCut** est une application web qui s'adresse aux salons de coiffure désirant gérer leurs rendez-vous et leur stock de produits simplement. 
+
+### Technologies utilisées
+- Symfony 7
+- PHP 8.3
+- Docker(-compose) pour l'environnement de développement
+- Composer
+- PostgreSQL
+- Doctrine
+- Twig
+- Bootstrap (framework CSS)
+
+### Diagramme de classe pour la base de données
+![Schéma](schema_bdd.png)
+
+### Installer et exécuter le projet
+1. Cloner le dépôt du projet 
+```bash
+git clone https://github.com/camviweb/bookmycut.git
+```
+
+2. Lancer Docker Desktop
+
+3. Construire l'image Docker
+```bash
+make build
+```
+
+4. Démarrer les conteneurs Docker
+```bash
+make up
+```
+
+5. Installer les dépendances PHP avec Composer
+```bash
+make composer-install
+```
+
+6. Exécuter les migrations de la base de données
+```bash
+make migrate 
+```
+
+7. Charger les fixtures 
+```bash
+docker exec bookmycut_php php bin/console d:f:l --no-interaction
+```
+
+8. Ajouter cette ligne "127.0.0.1 bookmycut.local" au fichier hosts
+
+9. Accéder à l'app 'bookmycut.local' ! 
+
+### Maquettes avec Figma
+https://www.figma.com/design/pfgxXrqYAUlA0grtzf6oOq/Untitled?node-id=0-1&m=dev&t=hiGhsBEL2okKY0sN-1
+
+### Support de présentation 
+https://docs.google.com/presentation/d/1CvXbs92Go8MvBhc3UO_YZ5NAN6xQOpVGplkPFnY5-8M/edit?usp=sharing 
+
+### Kanban
+Trello : https://trello.com/invite/b/679673e0da344137f1ead289/ATTI4f90adfb3a82eb787abb607306fe39bbC7262E66/bookmycut 
 
 ### User Stories  
 - **US1. En tant que client, je veux créer un compte et m'y authentifier afin de prendre rendez-vous.**
@@ -24,16 +83,3 @@
 - [ ] Lorsque je suis sur la page "Dashboard", quand je clique sur le bouton "Mon stock", alors je suis sur la page "Stock" et je vois mon stock et les produits à commander.
 - **US7. En tant que coiffeur, je veux accéder à une estimation de mon chiffre d'affaires mensuel afin d'avoir des statistiques.**
 - [ ] Lorsque je suis sur la page "Dashboards", quand je clique sur le bouton "Chiffre d'affaires", alors je suis sur la page "Chiffres d'affaires" et je vois mon profit, le nombre de clients et les dernières transactions.
-
-### Schéma de la base de données
-![Schéma](schema_bdd.png)
-- 1 table utilisateur (client et coiffeur)
-- 1 table rendez-vous (date, horaire, prestation)
-- 1 table prestation (nom, produit nécessaire, quantité nécessaire)
-- 1 table stock (produit, quantité)
-
-### Maquettes avec Figma
-https://www.figma.com/design/pfgxXrqYAUlA0grtzf6oOq/Untitled?node-id=0-1&m=dev&t=hiGhsBEL2okKY0sN-1
-
-### Kanban
-Trello : https://trello.com/invite/b/679673e0da344137f1ead289/ATTI4f90adfb3a82eb787abb607306fe39bbC7262E66/bookmycut 

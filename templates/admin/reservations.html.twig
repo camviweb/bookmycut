@@ -4,173 +4,164 @@
 
 {% block body %}
 
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-	<style>
-		#calendar {
-			max-width: 1100px;
-			height: 80vh;
-			margin: 40px auto;
-			border: 2px solid #ddd;
-			border-radius: 10px;
-			padding: 10px;
-			background-color: #f9f9f9;
-		}
+    <style>
+        #calendar {
+            max-width: 1100px;
+            height: 80vh;
+            margin: 40px auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
 
-		.fc-header-toolbar {
-			background-color: #007bff;
-			color: white;
-			border-radius: 8px;
-			padding: 10px;
-		}
+        .fc-header-toolbar {
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
 
-		.fc-daygrid-day-top {
-			background-color: #f0f8ff;
-		}
+        .fc-daygrid-day-top {
+            background-color: #f0f8ff;
+        }
 
-		.fc-daygrid-day-number {
-			color: #333;
-		}
+        .fc-daygrid-day-number {
+            color: #333;
+        }
 
-		.fc-daygrid-day {
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
+        .fc-daygrid-day {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-		.fc-event {
-			border-radius: 5px;
-			padding: 5px;
-			background-color: #28a745;
-			color: white;
-			font-size: 0.9em;
-			font-weight: bold;
-			cursor: pointer;
-		}
+        .fc-event {
+            border-radius: 5px;
+            padding: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-		.fc-event:hover {
-			background-color: #218838;
-			transform: scale(1.05);
-		}
+        .fc-event:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
 
-		.fc-event.confirmed {
-			background-color: #28a745;
-		}
+        .fc-event.confirmed {
+            background-color: #28a745;
+        }
 
-		.fc-event.pending {
-			background-color: #ffc107;
-		}
+        .fc-event.pending {
+            background-color: #ffc107;
+        }
 
-		.fc-event.cancelled {
-			background-color: #dc3545;
-		}
+        .fc-event.cancelled {
+            background-color: #dc3545;
+        }
 
-		.fc-header-toolbar .fc-button {
-			background-color: #007bff;
-			color: white;
-			border-radius: 5px;
-			border: none;
-			font-size: 1.1em;
-			margin: 0 5px;
-		}
+        .fc-header-toolbar .fc-button {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.1em;
+            margin: 0 5px;
+        }
 
-		.fc-header-toolbar .fc-button:hover {
-			background-color: #0056b3;
-		}
+        .fc-header-toolbar .fc-button:hover {
+            background-color: #0056b3;
+        }
 
-		.fc-event {
-			transition: transform 0.3s ease, background-color 0.3s ease;
-		}
+        .fc-event {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
 
-		/* Fenêtre modale */
-		.modal {
-			display: none; /* Reste cachée par défaut */
-			position: fixed;
-			z-index: 5;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			background-color: rgba(0, 0, 0, 0.5);
-			visibility: hidden; /* Initialement invisible */
-			transition: all 0.3s ease; /* Transition pour l'opacité */
-		}
+        /* Fenêtre modale */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 5;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
 
-		.modal-content {
-			overflow: hidden;
-			background-color: #fefefe;
-			margin: 15% auto;
-			padding: 20px;
-			border: 1px solid #888;
-			width: 80%;
-			max-width: 600px;
-			border-radius: 8px;
-			opacity: 0; /* Initialement invisible */
-			visibility: hidden; /* Caché */
-			transition: all 0.3s ease; /* Transition pour l'opacité */
-		}
+        .modal-content {
+            overflow: hidden;
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
 
-		.close {
-			color: #aaa;
-			font-size: 28px;
-			font-weight: bold;
-			position: absolute;
-			top: 10px;
-			right: 25px;
-			transition: 0.3s;
-		}
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            transition: 0.3s;
+        }
 
-		.close:hover,
-		.close:focus {
-			color: black;
-			text-decoration: none;
-			cursor: pointer;
-		}
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-		/* Animation d'apparition de la modale */
-		.modal.show {
-			visibility: visible; /* Devenir visible */
-		}
+        .modal.show {
+            visibility: visible;
+        }
 
-		.modal.show .modal-content {
-			opacity: 1; /* Devient visible */
-			visibility: visible; /* Rendre visible */
-			transition: all 0.3s ease; /* Transition pour l'opacité */
-		}
+        .modal.show .modal-content {
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.3s ease;
+        }
 
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-		@keyframes fadeOut {
-			from {
-				opacity: 1;
-			}
-			to {
-				opacity: 0;
-			}
-		}
-	</style>
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
 
-	<div class="container mt-4">
-		{#        <h2 class="text-center text-danger mb-4">Planning des réservations</h2> #}
-		<div id='calendar'></div>
-	</div>
+    <div class="container mt-4">
+        <a href="{{ path('app_admin_reservations_new') }}" class="btn btn-primary mb-3">Créer un rendez-vous</a>
+        <div id='calendar'></div>
+    </div>
 
-	<div id="eventModal" class="modal">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<div id="eventDetails"></div>
-		</div>
-	</div>
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="eventDetails"></div>
+        </div>
+    </div>
 
-	<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -194,15 +185,15 @@
                 eventClick: function (info) {
                     var event = info.event;
                     var eventDetails = `
-                <div>
-                    <h4>Détails de la réservation</h4>
-                    <p><strong>Client :</strong> ${event.extendedProps.client}</p>
-                    <p><strong>Service :</strong> ${event.extendedProps.service}</p>
-                    <p><strong>Date :</strong> ${event.start.toLocaleDateString()} de ${event.start.toLocaleTimeString()} à ${event.end.toLocaleTimeString()}</p>
-                    <p><strong>Prix :</strong> ${event.extendedProps.price} €</p>
-                    <p><strong>Statut :</strong> ${event.extendedProps.status === 1 ? 'Confirmé' : event.extendedProps.status === 2 ? 'Annulé' : 'En attente'}</p>
-                </div>
-            `;
+                        <div>
+                            <h4>Détails de la réservation</h4>
+                            <p><strong>Client :</strong> ${event.extendedProps.client}</p>
+                            <p><strong>Service :</strong> ${event.extendedProps.service}</p>
+                            <p><strong>Date :</strong> ${event.start.toLocaleDateString()} de ${event.start.toLocaleTimeString()} à ${event.end.toLocaleTimeString()}</p>
+                            <p><strong>Prix :</strong> ${event.extendedProps.price} €</p>
+                            <p><strong>Statut :</strong> ${event.extendedProps.status === 1 ? 'Confirmé' : event.extendedProps.status === 2 ? 'Annulé' : 'En attente'}</p>
+                        </div>
+                    `;
                     document.getElementById('eventDetails').innerHTML = eventDetails;
                     var modal = document.getElementById('eventModal');
                     modal.style.display = 'block';
@@ -211,8 +202,8 @@
                     }, 10);
                     document.body.style.overflow = 'hidden';
                 },
-				slotMinTime: "09:00:00",
-				slotMaxTime: "19:00:00",
+                slotMinTime: "09:00:00",
+                slotMaxTime: "19:00:00",
             });
 
             calendar.render();
@@ -238,7 +229,6 @@
                 }
             });
         });
-
     </script>
 
 {% endblock %}

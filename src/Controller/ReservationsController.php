@@ -2,23 +2,36 @@
 
 namespace App\Controller;
 
+use App\Service\ReservationsService;
 use App\Repository\AppointmentRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\UserRepository;
+use App\Security\AuthentificatorAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Appointment;
-use App\Repository\UserRepository;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 
 final class ReservationsController extends AbstractController
 {
+    private ReservationsService $reservationsService;
+
+    public function __construct(ReservationsService $reservationsService)
+    {
+        $this->reservationsService = $reservationsService;
+    }
+
     #[Route('/reservations', name: 'app_reservations')]
     public function index(ServiceRepository $serviceRepository): Response
     {
@@ -27,66 +40,49 @@ final class ReservationsController extends AbstractController
             '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
             '16:30', '17:00', '17:30', '18:00'
         ];
-
         $prestations = [
             'hommes' => $serviceRepository->findBy(['category' => 'hommes']),
             'femmes' => $serviceRepository->findBy(['category' => 'femmes']),
         ];
-
         return $this->render('reservations/index.html.twig', [
             'prestations' => $prestations,
             'horaires' => $horaires,
         ]);
     }
-
     #[Route('/reservations/create', name: 'app_create_reservation', methods: ['POST'])]
-    public function createAppointment(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ServiceRepository $serviceRepository, SessionInterface $session, AppointmentRepository $appointmentRepository, MailerInterface $mailer): RedirectResponse
+    public function createAppointment(Request $request, EntityManagerInterface $em, 
+    UserRepository $userRepository, 
+    ServiceRepository $serviceRepository, 
+    SessionInterface $session, 
+    AppointmentRepository $appointmentRepository, 
+    MailerInterface $mailer, 
+    UserPasswordHasherInterface $passwordHasher, 
+    UserAuthenticatorInterface $authenticator, 
+    AuthentificatorAuthenticator $appAuthenticator): RedirectResponse
     {
         $date = $request->get('date');
         $horaire = $request->get('horaire');
         $prestationId = $request->get('prestation');
-        $userId = $request->get('userId');
-
-        $service = $serviceRepository->find($prestationId);
-        $user = $userRepository->find($userId);
-
-        $dateTime = new \DateTime($date . ' ' . $horaire);
-
-        $existingAppointment = $appointmentRepository->findOneBy(['date' => $dateTime]);
-        if ($existingAppointment) {
-            $session->getFlashBag()->add('danger', 'Un rendez-vous existe déjà pour le ' . $dateTime->format('d/m/Y') . ' à ' . $dateTime->format('H:i'));
-            return $this->redirectToRoute('app_reservations');
+        $user = $this->getUser();
+        if(!$user){
+            $email = $request->get('email');
+        }  
+        else{
+            $email = $user->getEmail();
         }
 
-        $appointment = new Appointment();
-        $appointment->setDate($dateTime);
-        $appointment->setService($service);
-        $appointment->setUser($user);
-        $appointment->setPrice($service->getPrice());
-        $appointment->setDetail($service->getDescription());
-        $appointment->setStatus(0);
+        
+        // Appel du service pour créer un rendez-vous
+        $route = $this->reservationsService->createAppointment(
+            $request,
+            $session,
+            $date,
+            $horaire,
+            $prestationId,
+            $email
+        );
 
-        $em->persist($appointment);
-        $em->flush();
-
-        $email = (new Email())
-            ->from('no-reply@bookmycut.com')
-            ->to($user->getEmail())
-            ->subject('Confirmation de votre rendez-vous')
-            ->html("
-            <h2>Confirmation de rendez-vous</h2>
-            <p>Bonjour {$user->getFirstName()},</p>
-            <p>Votre rendez-vous pour <strong>{$service->getName()}</strong> est confirmé.</p>
-            <p>Date : <strong>{$dateTime->format('d/m/Y')}</strong></p>
-            <p>Heure : <strong>{$dateTime->format('H:i')}</strong></p>
-            <p>Prix : <strong>{$service->getPrice()}€</strong></p>
-            <p>Merci de votre confiance !</p>
-        ");
-
-        $mailer->send($email);
-
-        $session->getFlashBag()->add('success', 'Rendez-vous confirmé pour le ' . $dateTime->format('d/m/Y') . ' à ' . $dateTime->format('H:i') . '. Un email de confirmation vous a été envoyé.');
-        return $this->redirectToRoute('app_reservations');
+        return $this->redirectToRoute('app_reservations'); // Redirige vers la page de réservation
     }
 
 
@@ -114,7 +110,7 @@ final class ReservationsController extends AbstractController
     {
         $reservations = $appointmentRepository->findBy(['user' => $this->getUser()], ['date' => 'DESC']);
 
-        return $this->render('reservations/mes_reservations.html.twig', [
+        return $this->render('reservations/my_reservations.html.twig', [
             'reservations' => $reservations,
         ]);
     }

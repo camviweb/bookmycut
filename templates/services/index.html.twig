@@ -33,10 +33,10 @@
             <h2 class="text-center text-danger mb-4">Coupes Femme</h2>
             {% for coupe in coupes_femmes %}
                 <div class="col-lg-4 col-md-6 col-12 mb-4">
-                    <img src="{{ asset('img/' ~ coupe.photo) }}" class="card-img-top" alt="Coupe {{ coupe.name }}"> 
-                    <div class="card shadow-sm d-flex flex-column">
+                    <img src="{{ asset('img/' ~ coupe.photo) }}" class="card-img-top" alt="Coupe {{ coupe.name }} pour femme" aria-label="Image de coupe {{ coupe.name }} pour femme"> 
+                    <div class="card shadow-sm d-flex flex-column" aria-labelledby="coupeFemmes{{ loop.index }}">
                         <div class="card-body d-flex flex-column text-start text-wrap">
-                            <h5 class="card-title text-center">Coupe Femme - <br> {{ coupe.name }}</h5>
+                            <h5 class="card-title text-center" id="coupeFemmes{{ loop.index }}">Coupe Femme - <br> {{ coupe.name }}</h5>
                             <p class="card-text">{{ coupe.description }}</p>
                         </div>
                         <div class="card-footer">
@@ -46,7 +46,7 @@
                             <p class="fw-bold mb-0">
                                 <i class="bi bi-tag"></i> {{ coupe.price }} €
                             </p>
-                            <a class="btn btn-danger" href="{{ path('app_reservations') }}">Réserver</a>
+                            <a class="btn btn-danger" href="{{ path('app_reservations') }}" aria-describedby="coupeFemmes{{ loop.index }}">Réserver</a>
                         </div>
                     </div>
                 </div>
@@ -55,10 +55,10 @@
             <h2 class="text-center text-danger mb-4">Coupes Homme</h2>
             {% for coupe in coupes_hommes %}
                 <div class="col-lg-4 col-md-6 col-12 mb-4">
-                    <img src="{{ asset('img/' ~ coupe.photo) }}" class="card-img-top" alt="Coupe {{ coupe.name }}">
-                    <div class="card shadow-sm d-flex flex-column">
+                    <img src="{{ asset('img/' ~ coupe.photo) }}" class="card-img-top" alt="Coupe {{ coupe.name }} pour homme" aria-label="Image de coupe {{ coupe.name }} pour homme">
+                    <div class="card shadow-sm d-flex flex-column" aria-labelledby="coupeHommes{{ loop.index }}">
                         <div class="card-body d-flex flex-column text-start text-wrap">
-                            <h5 class="card-title text-center">Coupe Homme - <br> {{ coupe.name }}</h5>
+                            <h5 class="card-title text-center" id="coupeHommes{{ loop.index }}">Coupe Homme - <br> {{ coupe.name }}</h5>
                             <p class="card-text">{{ coupe.description }}</p>
                         </div>
                         <div class="card-footer">
@@ -68,7 +68,7 @@
                             <p class="fw-bold mb-0">
                                 <i class="bi bi-tag"></i> {{ coupe.price }} €
                             </p>
-                            <a class="btn btn-danger" href="{{ path('app_reservations') }}">Réserver</a>
+                            <a class="btn btn-danger" href="{{ path('app_reservations') }}" aria-describedby="coupeHommes{{ loop.index }}">Réserver</a>
                         </div>
                     </div>
                 </div>
