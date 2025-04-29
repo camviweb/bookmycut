@@ -2,7 +2,7 @@
 
 {% block title %}Créer un rendez-vous{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
     <style>
         .hidden {
             display: none;
@@ -30,6 +30,7 @@
             border-radius: 8px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
+
         .form-check {
             display: flex;
             align-items: center;
@@ -53,15 +54,17 @@
             background-color: #630811;
         }
     </style>
+{% endblock %}
 
-    <div class="container mt-4">
+{% block body %}
+    <section class="container mt-4" role="region" aria-label="Formulaire de création de rendez-vous">
         <div class="form-container">
-            <h2 class="mb-4 text-center">Créer un rendez-vous</h2>
+            <h1 class="mb-4 text-center h2">Créer un rendez-vous</h1>
 
             {{ form_start(form) }}
 
             <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" id="newClientCheck">
+                <input class="form-check-input" type="checkbox" id="newClientCheck" name="newClientCheck">
                 <label class="form-check-label" for="newClientCheck">Nouveau client</label>
             </div>
 
@@ -103,12 +106,10 @@
 
             {{ form_end(form) }}
         </div>
-    </div>
-
+    </section>
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const newClientCheck = document.getElementById("newClientCheck");

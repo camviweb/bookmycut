@@ -7,28 +7,27 @@
 {% endblock %}
 
 {% block body %}
-    <div class="hero text-center">
+    <div class="hero text-center" role="banner">
         <div>
-            <h1>Bienvenue chez BookMyCut</h1>
-            <p>Des services de coiffure de qualité pour vous sublimer.</p>
-            <a class="btn btn-danger btn-lg" href="{{ path('app_reservations') }}">Réservez votre rendez-vous</a>
+            <h1 id="hero-title">Bienvenue chez BookMyCut</h1>
+            <p id="hero-description">Des services de coiffure de qualité pour vous sublimer.</p>
+            <a class="btn btn-danger btn-lg" href="{{ path('app_reservations') }}" aria-labelledby="hero-title hero-description">Réservez votre rendez-vous</a>
         </div>
     </div>
 
-    <div class="services">
+    <div class="services" role="region" aria-labelledby="services-title">
         <div class="container my-5">
-            <h2 class="text-center text-danger mb-4">Nos Services</h2>
+            <h2 id="services-title" class="text-center text-danger mb-4">Nos Services</h2>
             <div class="row">
                 {% for service in services %}
-                    <div class="col-md-4">
+                    <div class="col-md-4" role="article">
                         <div class="card mb-4" style="height: 180px;">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>
                                     <h5 class="card-title">{{ service.name }}</h5>
                                     <p class="card-text">{{ service.description }}</p>
                                 </div>
-                                {# <a class="btn btn-danger" href="{{ path('service_details', {'slug': service.slug}) }}">Détails</a> #}
-                                <a class="btn btn-danger" href="{{ path('app_services') }}">Détails</a>
+                                <a class="btn btn-danger" href="{{ path('app_services') }}" aria-label="Voir les détails des services">Détails</a>
                             </div>
                         </div>
                     </div>
@@ -37,18 +36,18 @@
         </div>
     </div>
 
-    <div class="avis">
+    <div class="avis" role="region" aria-labelledby="avis-title">
         <div class="container my-5">
-            <h2 class="text-center text-primary mb-4">Avis de nos clients</h2>
+            <h2 id="avis-title" class="text-center text-primary mb-4">Avis de nos clients</h2>
             <div class="row justify-content-center overflow-hidden">
                 <div class="col-12">
                     <div class="testimonial-wrapper d-flex overflow-hidden">
                         {% for unAvis in avis %}
-                            <div class="testimonial-card" style="margin: 0 10px; padding-top: 5px;">
+                            <div class="testimonial-card" style="margin: 0 10px; padding-top: 5px;" role="article">
                                 <div class="card shadow-sm">
                                     <div class="card-body text-center" style="height: 150px; width: 300px;">
                                         <h5>{{ unAvis.user.firstName }} {{ unAvis.user.lastName }}</h5>
-                                        <p class="fst-italic">"{{ unAvis.feedback }}"</p>
+                                        <p class="fst-italic" aria-describedby="testimonial-feedback-{{ loop.index }}">"{{ unAvis.feedback }}"</p>
                                         <div>
                                             <span class="badge bg-warning text-dark">{{ unAvis.rating }} ★</span>
                                             <span class="text-muted ms-2">{{ unAvis.date|date('j F Y') }}</span>
